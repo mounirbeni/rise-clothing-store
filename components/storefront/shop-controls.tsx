@@ -35,7 +35,7 @@ export function ShopControls({
       <div className="flex flex-col gap-6 border-b border-white/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/45">Catalog</p>
-          <h1 className="mt-3 text-5xl font-black uppercase leading-none sm:text-7xl">
+          <h1 className="mt-3 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">
             Performance clothing
           </h1>
         </div>
@@ -45,9 +45,9 @@ export function ShopControls({
               event.preventDefault();
               pushParams({ q: query });
             }}
-            className="flex h-12 items-center gap-3 border border-white/15 px-4"
+            className="glass flex h-11 items-center gap-3 rounded-[20px] px-4"
           >
-            <Search size={18} className="text-white/45" />
+            <Search size={16} className="text-white/45" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -56,7 +56,7 @@ export function ShopControls({
               className="w-full bg-transparent text-sm outline-none placeholder:text-white/35"
             />
           </form>
-          <label className="relative flex h-12 items-center border border-white/15 px-4">
+          <label className="glass relative flex h-11 items-center rounded-[20px] px-4">
             <span className="sr-only">Sort products</span>
             <select
               value={activeSort}
@@ -70,7 +70,7 @@ export function ShopControls({
               <option value="rating">Top rated</option>
               <option value="stock">Stock</option>
             </select>
-            <ChevronDown size={16} className="pointer-events-none absolute right-4" />
+            <ChevronDown size={15} className="pointer-events-none absolute right-4" />
           </label>
         </div>
       </div>
@@ -79,8 +79,8 @@ export function ShopControls({
           <button
             key={item}
             onClick={() => pushParams({ category: item })}
-            className={`h-10 shrink-0 border px-4 text-xs font-black uppercase tracking-[0.16em] ${
-              activeCategory === item ? "border-white bg-white text-black" : "border-white/15 text-white/65"
+            className={`tap-scale h-9 shrink-0 rounded-full px-4 text-xs font-black uppercase tracking-[0.1em] ${
+              activeCategory === item ? "bg-white text-black" : "glass text-white/70"
             }`}
           >
             {item}

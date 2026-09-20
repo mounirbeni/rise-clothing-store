@@ -27,16 +27,16 @@ export default async function Page({
         <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">
           {order ? order.orderNumber : "Order pending"}
         </p>
-        <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">
+        <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">
           {order ? "Order confirmed" : "Payment processing"}
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-white/64">
+        <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-white/64">
           {order
             ? "Your RISE order is queued for fulfillment. Tracking, invoice, and delivery updates will appear in your account area."
             : "We're finalizing your payment confirmation. If you paid with Stripe, this page updates automatically once the webhook is received."}
         </p>
         {order ? (
-          <div className="mx-auto mt-8 grid max-w-md gap-2 border border-white/10 p-5 text-left text-sm text-white/70">
+          <div className="mx-auto mt-8 grid max-w-md gap-2 glass rounded-[20px] p-5 text-left text-sm text-white/70">
             {order.items.map((item) => (
               <div key={item.id} className="flex justify-between">
                 <span>{item.name} / {item.size} x{item.quantity}</span>
@@ -50,10 +50,10 @@ export default async function Page({
           </div>
         ) : null}
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/account" className="grid h-12 place-items-center bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
+          <Link href="/account" className="tap-scale grid h-12 place-items-center rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
             View account
           </Link>
-          <Link href="/shop" className="grid h-12 place-items-center border border-white/15 px-6 text-sm font-black uppercase tracking-[0.18em]">
+          <Link href="/shop" className="grid h-12 place-items-center rounded-[20px] border border-white/15 px-6 text-sm font-black uppercase tracking-[0.18em]">
             Continue shopping
           </Link>
         </div>

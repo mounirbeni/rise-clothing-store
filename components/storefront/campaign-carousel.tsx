@@ -51,8 +51,8 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
       <div className="mx-auto max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/50">Campaigns</p>
-            <h2 className="mt-3 text-3xl font-black uppercase sm:text-5xl">Season drops</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/50">Campaigns</p>
+            <h2 className="mt-2 text-2xl font-black uppercase sm:text-3xl">Season drops</h2>
           </div>
           <div className="hidden items-center gap-2 sm:flex">
             <button
@@ -92,14 +92,14 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 px-4 pb-10 sm:px-6 lg:px-8">
-              <div className="mx-auto max-w-7xl">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">{slide.subtitle}</p>
-                <h3 className="mt-2 max-w-xl text-3xl font-black uppercase leading-[0.95] sm:text-5xl">
+              <div className="glass-strong mx-auto max-w-md rounded-[20px] p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{slide.subtitle}</p>
+                <h3 className="mt-2 text-xl font-black uppercase leading-[1.05] sm:text-2xl lg:text-3xl">
                   {slide.title}
                 </h3>
                 <Link
                   href={slide.ctaHref}
-                  className="tap-scale mt-6 inline-flex h-12 items-center gap-2 rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
+                  className="tap-scale mt-5 inline-flex h-11 items-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
                 >
                   {slide.ctaLabel} <ChevronRight size={16} />
                 </Link>

@@ -64,7 +64,7 @@ export function CheckoutClient() {
     <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
       <div>
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Checkout</p>
-        <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">Secure checkout</h1>
+        <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">Secure checkout</h1>
 
         {lines.length === 0 ? (
           <div className="mt-8">
@@ -73,7 +73,7 @@ export function CheckoutClient() {
               title="Your bag is empty"
               text="Add products to your bag before checking out."
             />
-            <Link href="/shop" className="mt-6 inline-flex h-12 items-center bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
+            <Link href="/shop" className="tap-scale mt-6 inline-flex h-12 items-center rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
               Continue shopping
             </Link>
           </div>
@@ -87,49 +87,49 @@ export function CheckoutClient() {
                   placeholder="Email"
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
                 />
                 <input
                   required
                   placeholder="Full name"
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
                 />
                 <input
                   required
                   placeholder="Address"
                   value={form.line1}
                   onChange={(e) => setForm((f) => ({ ...f, line1: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35 sm:col-span-2"
                 />
                 <input
                   required
                   placeholder="City"
                   value={form.city}
                   onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
                 />
                 <input
                   required
                   placeholder="State / Region"
                   value={form.region}
                   onChange={(e) => setForm((f) => ({ ...f, region: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
                 />
                 <input
                   required
                   placeholder="Postal code"
                   value={form.postal}
                   onChange={(e) => setForm((f) => ({ ...f, postal: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
                 />
                 <input
                   required
                   placeholder="Country"
                   value={form.country}
                   onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none placeholder:text-white/35"
                 />
               </div>
             </CheckoutStep>
@@ -139,16 +139,16 @@ export function CheckoutClient() {
                   placeholder="Discount code (optional)"
                   value={form.discountCode}
                   onChange={(e) => setForm((f) => ({ ...f, discountCode: e.target.value.toUpperCase() }))}
-                  className="h-12 border border-white/15 bg-transparent px-3 uppercase outline-none placeholder:normal-case placeholder:text-white/35"
+                  className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 uppercase outline-none placeholder:normal-case placeholder:text-white/35"
                 />
-                <div className="border border-white/15 p-4 text-sm leading-7 text-white/62">
+                <div className="rounded-[20px] border border-white/15 p-4 text-sm leading-7 text-white/62">
                   Stripe Checkout is integrated through <code className="text-white">/api/checkout</code>. Without
                   live keys, orders are confirmed instantly in demo mode.
                 </div>
                 {error ? <p className="text-sm text-red-400">{error}</p> : null}
                 <button
                   disabled={submitting}
-                  className="grid h-12 place-items-center bg-white text-sm font-black uppercase tracking-[0.18em] text-black disabled:opacity-50"
+                  className="tap-scale grid h-12 place-items-center rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black disabled:opacity-50"
                 >
                   {submitting ? "Placing order..." : "Place order"}
                 </button>
@@ -157,7 +157,7 @@ export function CheckoutClient() {
           </form>
         )}
       </div>
-      <aside className="h-fit border border-white/10 p-5 lg:sticky lg:top-24">
+      <aside className="h-fit glass rounded-[20px] p-5 lg:sticky lg:top-24">
         <h2 className="flex items-center gap-2 text-lg font-black uppercase"><Lock size={18} /> Order summary</h2>
         <div className="mt-5 grid gap-4">
           {lines.map((item) => (
@@ -186,7 +186,7 @@ export function CheckoutClient() {
 
 function CheckoutStep({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
-    <section className="border border-white/10 p-5">
+    <section className="glass rounded-[20px] p-5">
       <h2 className="mb-5 flex items-center gap-2 text-lg font-black uppercase tracking-[0.12em]">{icon} {title}</h2>
       {children}
     </section>

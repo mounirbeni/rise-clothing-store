@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 px-4 py-10 pb-28 sm:px-6 lg:px-8 lg:pb-10">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_2fr]">
+    <footer className="px-4 pb-28 pt-10 sm:px-6 lg:px-8 lg:pb-10">
+      <div className="glass mx-auto grid max-w-7xl gap-8 rounded-[20px] p-6 sm:p-8 lg:grid-cols-[1fr_2fr]">
         <div>
-          <p className="text-3xl font-black tracking-[0.28em]">RISE</p>
-          <p className="mt-3 text-sm uppercase tracking-[0.18em] text-white/45">
+          <p className="text-xl font-black tracking-[0.28em]">RISE</p>
+          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/45">
             Worldwide performance clothing
           </p>
         </div>

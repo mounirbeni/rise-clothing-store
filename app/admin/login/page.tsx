@@ -11,16 +11,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ e
 
   return (
     <main className="grid min-h-screen place-items-center bg-black px-4 text-white">
-      <section className="w-full max-w-md border border-white/10 p-6">
+      <section className="w-full max-w-md glass rounded-[20px] p-6">
         <div className="mb-8">
           <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Secure admin login</p>
-          <h1 className="mt-3 text-4xl font-black uppercase">RISE console</h1>
+          <h1 className="mt-3 text-2xl font-black uppercase">RISE console</h1>
         </div>
         <form action="/api/auth/login" method="post" className="grid gap-4">
-          <input name="email" type="email" required defaultValue="owner@rise.test" placeholder="Email" className="h-12 border border-white/15 bg-transparent px-3 outline-none" />
-          <input name="password" type="password" required defaultValue="password" placeholder="Password" className="h-12 border border-white/15 bg-transparent px-3 outline-none" />
+          <input name="email" type="email" required defaultValue="owner@rise.test" placeholder="Email" className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none" />
+          <input name="password" type="password" required defaultValue="password" placeholder="Password" className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 outline-none" />
           {error ? <p className="text-sm text-red-400">Invalid email or password.</p> : null}
-          <button className="flex h-12 items-center justify-center gap-2 bg-white text-sm font-black uppercase tracking-[0.18em] text-black">
+          <button className="tap-scale flex h-12 items-center justify-center gap-2 rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black">
             <LockKeyhole size={17} /> Login
           </button>
         </form>

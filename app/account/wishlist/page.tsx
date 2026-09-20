@@ -40,7 +40,7 @@ export default async function Page() {
     <StorefrontShell>
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Account</p>
-        <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-6xl">Wishlist</h1>
+        <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl">Wishlist</h1>
         <div className="mt-10">
           {cards.length === 0 ? (
             <EmptyState

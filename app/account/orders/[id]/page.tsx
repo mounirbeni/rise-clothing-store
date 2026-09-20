@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     <StorefrontShell>
       <section className="mx-auto max-w-3xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Order detail</p>
-        <h1 className="mt-4 text-4xl font-black uppercase leading-none sm:text-5xl">{order.orderNumber}</h1>
+        <h1 className="mt-4 text-2xl font-black uppercase leading-none sm:text-3xl">{order.orderNumber}</h1>
         <p className="mt-3 text-white/50">
           Placed {formatDate(order.createdAt)} / Status {order.status.replace("_", " ")}
         </p>
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         ) : null}
         <div className="mt-8 grid gap-3">
           {order.items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between border border-white/10 p-4">
+            <div key={item.id} className="flex items-center justify-between glass rounded-[20px] p-4">
               <div>
                 <p className="font-bold">{item.name}</p>
                 <p className="text-sm text-white/45">Size {item.size} / Qty {item.quantity}</p>

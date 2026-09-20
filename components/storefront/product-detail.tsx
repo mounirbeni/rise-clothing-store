@@ -63,7 +63,7 @@ export function ProductDetail({
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-24 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
         <div className="grid gap-4 sm:grid-cols-2">
           {product.images.map((image, index) => (
-            <div key={image.url + index} className="relative aspect-[4/5] overflow-hidden bg-zinc-950">
+            <div key={image.url + index} className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-zinc-950">
               <Image
                 src={image.url}
                 alt={image.alt || `${product.name} view ${index + 1}`}
@@ -79,17 +79,17 @@ export function ProductDetail({
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/45">
             {product.category} / {product.color}
           </p>
-          <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-6xl">{product.name}</h1>
-          <div className="mt-5 flex items-center gap-3">
-            <p className="text-2xl font-black">{formatCurrency(product.price)}</p>
+          <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl">{product.name}</h1>
+          <div className="mt-4 flex items-center gap-3">
+            <p className="text-xl font-black">{formatCurrency(product.price)}</p>
             {product.compareAt ? (
-              <p className="text-lg text-white/38 line-through">{formatCurrency(product.compareAt)}</p>
+              <p className="text-base text-white/38 line-through">{formatCurrency(product.compareAt)}</p>
             ) : null}
           </div>
-          <div className="mt-4 flex items-center gap-2 text-sm text-white/65">
-            <Star size={16} className="fill-white" /> {product.avgRating.toFixed(1)} / {product.reviewCount} reviews
+          <div className="mt-3 flex items-center gap-2 text-sm text-white/65">
+            <Star size={15} className="fill-white" /> {product.avgRating.toFixed(1)} / {product.reviewCount} reviews
           </div>
-          <p className="mt-6 text-lg leading-8 text-white/68">{description}</p>
+          <p className="mt-5 text-base leading-7 text-white/68">{description}</p>
           <div className="mt-7">
             <div className="mb-3 flex items-center justify-between text-sm font-bold uppercase tracking-[0.18em]">
               <span>Size</span>
@@ -103,8 +103,8 @@ export function ProductDetail({
                   key={variant.size}
                   onClick={() => setSize(variant.size)}
                   disabled={variant.stock === 0}
-                  className={`h-12 border text-sm font-black disabled:cursor-not-allowed disabled:opacity-30 ${
-                    size === variant.size ? "border-white bg-white text-black" : "border-white/15 text-white"
+                  className={`tap-scale h-11 rounded-[20px] text-sm font-black disabled:cursor-not-allowed disabled:opacity-30 ${
+                    size === variant.size ? "bg-white text-black" : "glass text-white"
                   }`}
                 >
                   {variant.size}
@@ -113,7 +113,7 @@ export function ProductDetail({
             </div>
           </div>
           <div className="mt-5 grid grid-cols-[128px_1fr] gap-3">
-            <div className="grid h-12 grid-cols-3 border border-white/15">
+            <div className="glass grid h-11 grid-cols-3 rounded-[20px]">
               <button aria-label="Decrease quantity" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
                 <Minus className="mx-auto" size={16} />
               </button>
@@ -138,7 +138,7 @@ export function ProductDetail({
                   quantity,
                 )
               }
-              className="h-12 bg-white text-sm font-black uppercase tracking-[0.18em] text-black disabled:opacity-40"
+              className="tap-scale h-11 rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black disabled:opacity-40"
             >
               {stock === 0 ? "Out of stock" : "Add to bag"}
             </button>
@@ -146,8 +146,8 @@ export function ProductDetail({
           <button
             onClick={() => toggle(product.id)}
             aria-pressed={wishlisted}
-            className={`mt-3 flex h-12 w-full items-center justify-center gap-2 border text-sm font-black uppercase tracking-[0.18em] ${
-              wishlisted ? "border-white bg-white text-black" : "border-white/15"
+            className={`tap-scale mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-[20px] text-sm font-black uppercase tracking-[0.18em] ${
+              wishlisted ? "bg-white text-black" : "glass text-white"
             }`}
           >
             <Heart size={17} className={wishlisted ? "fill-current" : ""} />{" "}
@@ -165,14 +165,14 @@ export function ProductDetail({
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <h2 className="mb-6 text-3xl font-black uppercase">Reviews</h2>
+        <h2 className="mb-6 text-2xl font-black uppercase">Reviews</h2>
         <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
           <div className="grid gap-4">
             {localReviews.length === 0 ? (
               <p className="text-white/50">Be the first to review this product.</p>
             ) : (
               localReviews.map((review) => (
-                <div key={review.id} className="border border-white/10 p-5">
+                <div key={review.id} className="glass rounded-[20px] p-5">
                   <div className="flex items-center justify-between">
                     <p className="font-black">{review.title}</p>
                     <span className="inline-flex items-center gap-1 text-sm">
@@ -187,8 +187,8 @@ export function ProductDetail({
               ))
             )}
           </div>
-          <form onSubmit={submitReview} className="h-fit border border-white/10 p-5">
-            <h3 className="text-lg font-black uppercase">Write a review</h3>
+          <form onSubmit={submitReview} className="glass h-fit rounded-[20px] p-5">
+            <h3 className="text-base font-black uppercase">Write a review</h3>
             <div className="mt-4 grid gap-3">
               <label className="grid gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/50">
                 Your name
@@ -196,7 +196,7 @@ export function ProductDetail({
                   required
                   value={reviewForm.author}
                   onChange={(e) => setReviewForm((f) => ({ ...f, author: e.target.value }))}
-                  className="h-11 border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
+                  className="h-11 rounded-[20px] rounded-[20px] border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
                 />
               </label>
               <label className="grid gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/50">
@@ -204,7 +204,7 @@ export function ProductDetail({
                 <select
                   value={reviewForm.rating}
                   onChange={(e) => setReviewForm((f) => ({ ...f, rating: Number(e.target.value) }))}
-                  className="h-11 border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
+                  className="h-11 rounded-[20px] rounded-[20px] border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
                 >
                   {[5, 4, 3, 2, 1].map((n) => (
                     <option key={n} value={n} className="bg-black">
@@ -219,7 +219,7 @@ export function ProductDetail({
                   required
                   value={reviewForm.title}
                   onChange={(e) => setReviewForm((f) => ({ ...f, title: e.target.value }))}
-                  className="h-11 border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
+                  className="h-11 rounded-[20px] rounded-[20px] border border-white/15 bg-transparent px-3 text-sm text-white outline-none"
                 />
               </label>
               <label className="grid gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/50">
@@ -229,14 +229,14 @@ export function ProductDetail({
                   rows={4}
                   value={reviewForm.body}
                   onChange={(e) => setReviewForm((f) => ({ ...f, body: e.target.value }))}
-                  className="border border-white/15 bg-transparent px-3 py-2 text-sm text-white outline-none"
+                  className="rounded-[20px] rounded-[20px] border border-white/15 bg-transparent px-3 py-2 text-sm text-white outline-none"
                 />
               </label>
               {reviewError ? <p className="text-sm text-red-400">{reviewError}</p> : null}
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-11 bg-white text-sm font-black uppercase tracking-[0.16em] text-black disabled:opacity-50"
+                className="tap-scale h-11 rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.16em] text-black disabled:opacity-50"
               >
                 {submitting ? "Submitting..." : "Submit review"}
               </button>
@@ -247,7 +247,7 @@ export function ProductDetail({
 
       {related.length ? (
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-          <h2 className="mb-6 text-3xl font-black uppercase">Related products</h2>
+          <h2 className="mb-6 text-2xl font-black uppercase">Related products</h2>
           <ProductGrid products={related} />
         </section>
       ) : null}

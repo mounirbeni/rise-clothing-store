@@ -6,7 +6,7 @@ export default function NotFound() {
       <section>
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">404</p>
         <h1 className="mt-4 text-5xl font-black uppercase">Page not found</h1>
-        <Link href="/" className="mt-8 inline-grid h-12 place-items-center bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
+        <Link href="/" className="mt-8 inline-grid h-12 place-items-center rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
           Return home
         </Link>
       </section>

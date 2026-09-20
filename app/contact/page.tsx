@@ -10,7 +10,7 @@ export default function Page() {
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Contact</p>
-          <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">Talk to RISE</h1>
+          <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">Talk to RISE</h1>
           <div className="mt-8 grid gap-4 text-white/64">
             <p className="flex items-center gap-3"><Mail size={18} /> support@rise.test</p>
             <p className="flex items-center gap-3"><MapPin size={18} /> 184 Mercer St, New York, NY</p>

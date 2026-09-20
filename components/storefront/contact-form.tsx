@@ -25,14 +25,14 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="grid gap-4 border border-white/10 p-5">
+      <div className="grid gap-4 glass rounded-[20px] p-5">
         <p className="text-2xl font-black uppercase">Message sent</p>
         <p className="leading-7 text-white/62">
           Thanks for reaching out. The RISE support team responds within one business day.
         </p>
         <button
           onClick={() => setStatus("idle")}
-          className="h-11 w-fit border border-white/15 px-5 text-sm font-black uppercase tracking-[0.14em]"
+          className="h-11 w-fit rounded-[20px] border border-white/15 px-5 text-sm font-black uppercase tracking-[0.14em]"
         >
           Send another message
         </button>
@@ -41,14 +41,14 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-4 border border-white/10 p-5">
+    <form onSubmit={submit} className="grid gap-4 glass rounded-[20px] p-5">
       <label className="grid gap-2 text-sm font-bold uppercase tracking-[0.14em] text-white/55">
         Name
         <input
           required
           value={form.name}
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-          className="h-12 border border-white/15 bg-transparent px-3 text-base text-white outline-none"
+          className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 text-base text-white outline-none"
         />
       </label>
       <label className="grid gap-2 text-sm font-bold uppercase tracking-[0.14em] text-white/55">
@@ -58,7 +58,7 @@ export function ContactForm() {
           type="email"
           value={form.email}
           onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          className="h-12 border border-white/15 bg-transparent px-3 text-base text-white outline-none"
+          className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 text-base text-white outline-none"
         />
       </label>
       <label className="grid gap-2 text-sm font-bold uppercase tracking-[0.14em] text-white/55">
@@ -66,7 +66,7 @@ export function ContactForm() {
         <input
           value={form.orderNumber}
           onChange={(e) => setForm((f) => ({ ...f, orderNumber: e.target.value }))}
-          className="h-12 border border-white/15 bg-transparent px-3 text-base text-white outline-none"
+          className="h-12 rounded-[20px] border border-white/15 bg-transparent px-3 text-base text-white outline-none"
         />
       </label>
       <label className="grid gap-2 text-sm font-bold uppercase tracking-[0.14em] text-white/55">
@@ -76,7 +76,7 @@ export function ContactForm() {
           rows={6}
           value={form.message}
           onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-          className="border border-white/15 bg-transparent p-3 text-base text-white outline-none"
+          className="rounded-[20px] border border-white/15 bg-transparent p-3 text-base text-white outline-none"
         />
       </label>
       {status === "error" ? <p className="text-sm text-red-400">Something went wrong. Please try again.</p> : null}

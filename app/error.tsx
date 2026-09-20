@@ -6,7 +6,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
       <section>
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Error</p>
         <h1 className="mt-4 text-5xl font-black uppercase">Something slipped</h1>
-        <button onClick={reset} className="mt-8 h-12 bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
+        <button onClick={reset} className="mt-8 h-12 rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
           Try again
         </button>
       </section>
