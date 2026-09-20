@@ -1,18 +1,54 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
-import { MobileNav, SiteFooter, SiteHeader } from "@/components/rise-storefront";
+import { StorefrontShell } from "@/components/storefront/storefront-shell";
+import { getOrderById } from "@/lib/data/orders";
+import { prisma } from "@/lib/prisma";
+import { formatCurrency } from "@/lib/format";
 
-export default function Page() {
+export const metadata = { title: "Order confirmed" };
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ order?: string; session_id?: string }>;
+}) {
+  const { order: orderId, session_id: stripeSessionId } = await searchParams;
+
+  const order = orderId
+    ? await getOrderById(orderId)
+    : stripeSessionId
+      ? await prisma.order.findFirst({ where: { stripeSession: stripeSessionId }, include: { items: true } })
+      : null;
+
   return (
-    <main className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
-      <SiteHeader />
+    <StorefrontShell>
       <section className="mx-auto max-w-3xl px-4 pb-16 pt-32 text-center sm:px-6 lg:px-8">
         <CheckCircle2 size={48} className="mx-auto" />
-        <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">Order RSE-1049</p>
-        <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">Order confirmed</h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-white/64">
-          Your RISE order is queued for fulfillment. Tracking, invoice, and delivery updates will appear in your account area.
+        <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">
+          {order ? order.orderNumber : "Order pending"}
         </p>
+        <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">
+          {order ? "Order confirmed" : "Payment processing"}
+        </h1>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-white/64">
+          {order
+            ? "Your RISE order is queued for fulfillment. Tracking, invoice, and delivery updates will appear in your account area."
+            : "We're finalizing your payment confirmation. If you paid with Stripe, this page updates automatically once the webhook is received."}
+        </p>
+        {order ? (
+          <div className="mx-auto mt-8 grid max-w-md gap-2 border border-white/10 p-5 text-left text-sm text-white/70">
+            {order.items.map((item) => (
+              <div key={item.id} className="flex justify-between">
+                <span>{item.name} / {item.size} x{item.quantity}</span>
+                <span>{formatCurrency(item.unitPrice * item.quantity)}</span>
+              </div>
+            ))}
+            <div className="flex justify-between border-t border-white/10 pt-2 text-base font-black text-white">
+              <span>Total</span>
+              <span>{formatCurrency(order.total)}</span>
+            </div>
+          </div>
+        ) : null}
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href="/account" className="grid h-12 place-items-center bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
             View account
@@ -22,8 +58,6 @@ export default function Page() {
           </Link>
         </div>
       </section>
-      <SiteFooter />
-      <MobileNav />
-    </main>
+    </StorefrontShell>
   );
 }

@@ -1,9 +1,10 @@
-import { MobileNav, SiteFooter, SiteHeader } from "@/components/rise-storefront";
+import { StorefrontShell } from "@/components/storefront/storefront-shell";
+
+export const metadata = { title: "Shipping & Returns" };
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
-      <SiteHeader />
+    <StorefrontShell>
       <section className="mx-auto max-w-4xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Logistics</p>
         <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">Shipping & Returns</h1>
@@ -20,8 +21,6 @@ export default function Page() {
           ))}
         </div>
       </section>
-      <SiteFooter />
-      <MobileNav />
-    </main>
+    </StorefrontShell>
   );
 }

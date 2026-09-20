@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BrandPillars, MobileNav, SiteFooter, SiteHeader } from "@/components/rise-storefront";
+import { StorefrontShell } from "@/components/storefront/storefront-shell";
+import { BrandPillars } from "@/components/storefront/brand-pillars";
+
+export const metadata = { title: "Collection" };
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
-      <SiteHeader />
+    <StorefrontShell>
       <section className="relative min-h-[82svh] overflow-hidden pt-16">
         <Image src="/images/campaign.jpeg" alt="RISE campaign" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-black/42" />
@@ -23,8 +25,6 @@ export default function Page() {
         </div>
       </section>
       <BrandPillars />
-      <SiteFooter />
-      <MobileNav />
-    </main>
+    </StorefrontShell>
   );
 }

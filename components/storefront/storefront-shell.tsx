@@ -1,0 +1,26 @@
+import { getSession } from "@/lib/auth";
+import { SiteHeader } from "@/components/storefront/site-header";
+import { SiteFooter } from "@/components/storefront/site-footer";
+import { MobileNav } from "@/components/storefront/mobile-nav";
+import { CartDrawer } from "@/components/storefront/cart-drawer";
+
+export async function StorefrontShell({
+  children,
+  hideFooter,
+}: {
+  children: React.ReactNode;
+  hideFooter?: boolean;
+}) {
+  const session = await getSession();
+  const authed = Boolean(session && session.role === "customer");
+
+  return (
+    <div className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
+      <SiteHeader authed={authed} />
+      {children}
+      {hideFooter ? null : <SiteFooter />}
+      <MobileNav authed={authed} />
+      <CartDrawer />
+    </div>
+  );
+}

@@ -1,12 +1,14 @@
-import { createHmac, timingSafeEqual } from "crypto";
+import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
 export type AdminRole = "owner" | "admin" | "staff";
+export type AppRole = AdminRole | "customer";
 
 export type SessionUser = {
   id: string;
   email: string;
-  role: AdminRole;
+  name: string;
+  role: AppRole;
 };
 
 const cookieName = "rise_session";
@@ -30,9 +32,10 @@ export function verifySessionToken(token?: string): SessionUser | null {
   if (!payload || !signature) return null;
 
   const expected = sign(payload);
+  const expectedBuf = Buffer.from(expected);
+  const signatureBuf = Buffer.from(signature);
   const valid =
-    expected.length === signature.length &&
-    timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
+    expectedBuf.length === signatureBuf.length && timingSafeEqual(expectedBuf, signatureBuf);
 
   if (!valid) return null;
 
@@ -48,6 +51,8 @@ export async function getSession() {
   return verifySessionToken(store.get(cookieName)?.value);
 }
 
+export const SESSION_COOKIE_NAME = cookieName;
+
 export function sessionCookie(token: string) {
   return {
     name: cookieName,
@@ -56,12 +61,43 @@ export function sessionCookie(token: string) {
     sameSite: "lax" as const,
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60 * 8,
+    maxAge: 60 * 60 * 24 * 14,
   };
 }
 
-export function can(role: AdminRole, action: "write" | "refund" | "settings") {
+export function clearedSessionCookie() {
+  return {
+    name: cookieName,
+    value: "",
+    httpOnly: true,
+    sameSite: "lax" as const,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0,
+  };
+}
+
+export function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  const hash = scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
+
+export function verifyPassword(password: string, stored?: string | null) {
+  if (!stored || !stored.includes(":")) return false;
+  const [salt, hash] = stored.split(":");
+  const hashBuf = Buffer.from(hash, "hex");
+  const attempt = scryptSync(password, salt, 64);
+  return hashBuf.length === attempt.length && timingSafeEqual(hashBuf, attempt);
+}
+
+export function can(role: AppRole, action: "write" | "refund" | "settings") {
   if (role === "owner") return true;
   if (role === "admin") return action !== "settings";
-  return action === "write";
+  if (role === "staff") return action === "write";
+  return false;
+}
+
+export function isStaffRole(role: AppRole): role is AdminRole {
+  return role === "owner" || role === "admin" || role === "staff";
 }

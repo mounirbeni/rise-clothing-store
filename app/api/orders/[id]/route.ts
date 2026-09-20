@@ -1,13 +1,27 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
 import { can, getSession } from "@/lib/auth";
+import { getOrderById } from "@/lib/data/orders";
 
 const orderUpdateSchema = z.object({
-  status: z.enum(["Pending", "In fulfillment", "Fulfilled", "Refunded", "Cancelled"]).optional(),
-  tracking: z.string().min(3).optional(),
-  note: z.string().max(500).optional(),
-  refundAmount: z.number().positive().optional(),
+  status: z.enum(["pending", "paid", "in_fulfillment", "fulfilled", "refunded", "cancelled"]).optional(),
+  trackingNumber: z.string().min(3).max(64).optional(),
+  carrier: z.string().max(40).optional(),
+  internalNote: z.string().max(1000).optional(),
+  refund: z.boolean().optional(),
 });
+
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getSession();
+  if (!session || !can(session.role, "write")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const { id } = await params;
+  const order = await getOrderById(id);
+  if (!order) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ data: order });
+}
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
@@ -20,10 +34,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Invalid order update", issues: parsed.error.flatten() }, { status: 400 });
   }
 
-  if (parsed.data.refundAmount && !can(session.role, "refund")) {
+  if (parsed.data.refund && !can(session.role, "refund")) {
     return NextResponse.json({ error: "Refunds require admin or owner role" }, { status: 403 });
   }
 
   const { id } = await params;
-  return NextResponse.json({ data: { id, ...parsed.data }, status: "updated" });
+  const { refund, ...rest } = parsed.data;
+
+  const order = await prisma.order.update({
+    where: { id },
+    data: {
+      ...rest,
+      status: refund ? "refunded" : rest.status,
+    },
+    include: { items: true },
+  });
+
+  return NextResponse.json({ data: order, status: "updated" });
 }

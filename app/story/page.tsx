@@ -1,9 +1,11 @@
-import { BrandPillars, MobileNav, SiteFooter, SiteHeader } from "@/components/rise-storefront";
+import { StorefrontShell } from "@/components/storefront/storefront-shell";
+import { BrandPillars } from "@/components/storefront/brand-pillars";
+
+export const metadata = { title: "Story" };
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
-      <SiteHeader />
+    <StorefrontShell>
       <section className="mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Story</p>
         <h1 className="mt-4 max-w-5xl text-5xl font-black uppercase leading-none sm:text-7xl">
@@ -19,8 +21,6 @@ export default function Page() {
         </div>
       </section>
       <BrandPillars />
-      <SiteFooter />
-      <MobileNav />
-    </main>
+    </StorefrontShell>
   );
 }

@@ -1,16 +1,11 @@
-import { MobileNav, SiteFooter, SiteHeader } from "@/components/rise-storefront";
+import { StorefrontShell } from "@/components/storefront/storefront-shell";
+import { faqs } from "@/lib/content";
 
-const faqs = [
-  ["How does RISE fit?", "Most products fit true to size with structured athletic room. Size up for an oversized training look."],
-  ["When do drops ship?", "In-stock products usually leave the warehouse within two business days."],
-  ["Can I change an order?", "Contact support before fulfillment starts and the operations team can adjust size, address, or cancellation status."],
-  ["Do you ship internationally?", "Yes. Shipping zones are configured for the US, Canada, and EU in the admin dashboard."],
-];
+export const metadata = { title: "FAQ" };
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
-      <SiteHeader />
+    <StorefrontShell>
       <section className="mx-auto max-w-4xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Support</p>
         <h1 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl">FAQ</h1>
@@ -23,8 +18,6 @@ export default function Page() {
           ))}
         </div>
       </section>
-      <SiteFooter />
-      <MobileNav />
-    </main>
+    </StorefrontShell>
   );
 }
