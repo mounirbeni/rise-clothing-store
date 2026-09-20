@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   description: "Premium performance clothing for discipline, training, and everyday motion.",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon-64.png", sizes: "64x64", type: "image/png" },
+      { url: "/icons/favicon-256.png", sizes: "256x256", type: "image/png" },
+    ],
     apple: "/icons/apple-touch-icon.png",
   },
   appleWebApp: {
