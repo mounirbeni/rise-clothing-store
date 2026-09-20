@@ -27,12 +27,12 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/72 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="safe-top fixed inset-x-0 top-0 z-40 px-3 pt-3">
+      <nav className="glass mx-auto flex h-14 max-w-7xl items-center justify-between rounded-[22px] px-3 sm:px-5">
         <button
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}
-          className="grid size-10 place-items-center border border-white/10 text-white lg:hidden"
+          className="tap-scale grid size-10 place-items-center rounded-full text-white lg:hidden"
         >
           <Menu size={19} />
         </button>
@@ -50,25 +50,25 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           <button
             aria-label="Search"
             onClick={() => setSearchOpen(true)}
-            className="hidden size-10 place-items-center text-white/80 transition hover:bg-white/10 hover:text-white sm:grid"
+            className="tap-scale hidden size-10 place-items-center rounded-full text-white/85 hover:bg-white/10 sm:grid"
           >
             <Search size={19} />
           </button>
           <Link
             aria-label={authed ? "Account" : "Sign in"}
             href={authed ? "/account" : "/account/login"}
-            className="hidden size-10 place-items-center text-white/80 transition hover:bg-white/10 hover:text-white sm:grid"
+            className="tap-scale hidden size-10 place-items-center rounded-full text-white/85 hover:bg-white/10 sm:grid"
           >
             <User size={19} />
           </Link>
           <button
             aria-label="Open shopping bag"
             onClick={() => setBagOpen(true)}
-            className="relative grid size-10 place-items-center text-white/90 transition hover:bg-white/10"
+            className="tap-scale relative grid size-10 place-items-center rounded-full text-white hover:bg-white/10"
           >
             <ShoppingBag size={19} />
             {count > 0 ? (
-              <span className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-white text-[11px] font-black text-black">
+              <span className="absolute -right-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-white text-[11px] font-black text-black">
                 {count}
               </span>
             ) : null}
@@ -76,9 +76,9 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
         </div>
       </nav>
       {searchOpen ? (
-        <div className="fixed inset-0 z-50 bg-black/95 px-4 pt-28">
-          <div className="mx-auto max-w-2xl">
-            <form onSubmit={submitSearch} className="flex h-14 items-center gap-3 border border-white/20 px-4">
+        <div className="safe-top fixed inset-0 z-50 bg-black/60 px-4 pt-24 backdrop-blur-xl">
+          <div className="glass-strong mx-auto max-w-2xl rounded-[26px] p-4">
+            <form onSubmit={submitSearch} className="glass flex h-14 items-center gap-3 rounded-[18px] px-4">
               <Search size={20} className="text-white/50" />
               <input
                 autoFocus
@@ -91,14 +91,14 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
                 type="button"
                 aria-label="Close search"
                 onClick={() => setSearchOpen(false)}
-                className="grid size-9 place-items-center text-white/60 hover:text-white"
+                className="tap-scale grid size-9 place-items-center rounded-full text-white/60 hover:text-white"
               >
                 <X size={20} />
               </button>
             </form>
             <button
               onClick={submitSearch}
-              className="mt-4 inline-flex h-11 items-center gap-2 bg-white px-5 text-sm font-black uppercase tracking-[0.16em] text-black"
+              className="tap-scale mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-black uppercase tracking-[0.16em] text-black"
             >
               Search <ChevronRight size={16} />
             </button>
@@ -106,24 +106,24 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
         </div>
       ) : null}
       {menuOpen ? (
-        <div className="fixed inset-0 z-50 bg-black lg:hidden">
-          <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
+        <div className="safe-top safe-bottom fixed inset-0 z-50 bg-black/70 backdrop-blur-2xl lg:hidden">
+          <div className="glass mx-3 mt-3 flex h-14 items-center justify-between rounded-[22px] px-4">
             <span className="font-black tracking-[0.28em]">RISE</span>
             <button
               aria-label="Close menu"
               onClick={() => setMenuOpen(false)}
-              className="grid size-10 place-items-center border border-white/10"
+              className="tap-scale grid size-10 place-items-center rounded-full text-white"
             >
               <X size={19} />
             </button>
           </div>
-          <div className="grid gap-1 p-4">
+          <div className="mx-3 mt-3 grid gap-2">
             {links.map(([label, href]) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
-                className="border-b border-white/10 py-5 text-3xl font-black uppercase"
+                className="glass tap-scale rounded-[20px] px-5 py-5 text-3xl font-black uppercase"
               >
                 {label}
               </Link>
@@ -131,7 +131,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
             <Link
               href={authed ? "/account" : "/account/login"}
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-5 text-3xl font-black uppercase"
+              className="glass tap-scale rounded-[20px] px-5 py-5 text-3xl font-black uppercase"
             >
               {authed ? "Account" : "Sign in"}
             </Link>

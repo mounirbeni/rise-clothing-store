@@ -77,7 +77,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
           aria-pressed={wishlisted}
           onClick={() => toggle(product.id)}
-          className={`grid size-11 place-items-center border text-white transition hover:bg-white hover:text-black ${
+          className={`tap-scale grid size-11 place-items-center border text-white transition hover:bg-white hover:text-black ${
             wishlisted ? "border-white bg-white text-black" : "border-white/15"
           }`}
         >
@@ -99,7 +99,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
             size,
           )
         }
-        className="mt-2 flex h-11 w-full items-center justify-center gap-2 border border-white/18 text-sm font-black uppercase tracking-[0.16em] transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-white"
+        className="tap-scale mt-2 flex h-11 w-full items-center justify-center gap-2 border border-white/18 text-sm font-black uppercase tracking-[0.16em] transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-white"
       >
         {totalStock === 0 ? "Out of stock" : "Add to bag"}
       </button>

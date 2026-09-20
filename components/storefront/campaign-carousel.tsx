@@ -58,14 +58,14 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
             <button
               aria-label="Previous campaign"
               onClick={() => goTo(index - 1)}
-              className="grid size-11 place-items-center border border-white/15 text-white transition hover:bg-white hover:text-black"
+              className="glass tap-scale grid size-11 place-items-center rounded-full text-white"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               aria-label="Next campaign"
               onClick={() => goTo(index + 1)}
-              className="grid size-11 place-items-center border border-white/15 text-white transition hover:bg-white hover:text-black"
+              className="glass tap-scale grid size-11 place-items-center rounded-full text-white"
             >
               <ChevronRight size={18} />
             </button>
@@ -99,7 +99,7 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
                 </h3>
                 <Link
                   href={slide.ctaHref}
-                  className="mt-6 inline-flex h-12 items-center gap-2 bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
+                  className="tap-scale mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
                 >
                   {slide.ctaLabel} <ChevronRight size={16} />
                 </Link>
