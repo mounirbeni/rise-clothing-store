@@ -7,8 +7,6 @@ import { formatCurrency } from "@/lib/format";
 
 export const metadata = { title: "Order confirmed" };
 
-const STEPS = ["Delivery", "Contact", "Payment", "Review", "Confirmation"];
-
 export default async function Page({
   searchParams,
 }: {
@@ -23,18 +21,9 @@ export default async function Page({
       : null;
 
   return (
-    <StorefrontShell hideFooter hideMobileNav>
-      <section className="mx-auto max-w-2xl px-4 pb-16 pt-24 sm:px-6 lg:px-8">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-white/45">Step 5 of 5</p>
-        <h1 className="text-xl font-black uppercase leading-none">Confirmation</h1>
-
-        <div className="mt-5 flex gap-2">
-          {STEPS.map((label) => (
-            <div key={label} className="h-1.5 flex-1 rounded-full bg-white" />
-          ))}
-        </div>
-
-        <div className="fade-in mt-10 flex flex-col items-center text-center">
+    <StorefrontShell hideFooter hideMobileNav hideHeader>
+      <section className="mx-auto max-w-2xl px-4 pb-16 pt-16 sm:px-6 lg:px-8">
+        <div className="fade-in flex flex-col items-center text-center">
           <span className="confirm-pop glass-strong grid size-20 place-items-center rounded-full">
             <Check size={36} strokeWidth={2.6} />
           </span>

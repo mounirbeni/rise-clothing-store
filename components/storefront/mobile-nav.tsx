@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Home, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, Home, Shirt, ShoppingBag, User } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 
 export function MobileNav({ authed }: { authed?: boolean }) {
@@ -11,7 +11,7 @@ export function MobileNav({ authed }: { authed?: boolean }) {
 
   const items: { icon: typeof Home; label: string; href?: string; onClick?: () => void; badge?: number }[] = [
     { icon: Home, label: "Home", href: "/" },
-    { icon: Search, label: "Search", href: "/shop" },
+    { icon: Shirt, label: "Shop", href: "/shop" },
     { icon: ShoppingBag, label: "Bag", onClick: () => setBagOpen(true), badge: count },
     { icon: Heart, label: "Saved", href: authed ? "/account/wishlist" : "/account/login" },
     { icon: User, label: "Account", href: authed ? "/account" : "/account/login" },

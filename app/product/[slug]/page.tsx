@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const related = await relatedProducts(product);
 
   return (
-    <StorefrontShell>
+    <StorefrontShell hideMobileHeader hideMobileNav>
       <ProductDetail
         product={toCardData(product)}
         description={product.description}

@@ -5,7 +5,7 @@ export const metadata = { title: "Checkout" };
 
 export default function Page() {
   return (
-    <StorefrontShell hideFooter hideMobileNav>
+    <StorefrontShell hideFooter hideMobileNav hideHeader>
       <CheckoutClient />
     </StorefrontShell>
   );
