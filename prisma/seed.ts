@@ -4,206 +4,160 @@ import { slugify } from "../lib/format";
 
 const prisma = new PrismaClient();
 
-const IMAGES = {
-  hero: "/images/hero.jpeg",
-  campaign: "/images/campaign.jpeg",
-  hoodie: "/images/product-hoodie.jpeg",
-  training: "/images/training.jpeg",
-  packaging: "/images/packaging.jpeg",
+type ProductSeed = {
+  name: string;
+  category: string;
+  price: number;
+  compareAt?: number | null;
+  color: string;
+  featured: boolean;
+  sizes: { size: string; stock: number }[];
+  image: string;
+  description: string;
 };
 
-const products = [
+const APPAREL_SIZES = [
+  { size: "XS", stock: 14 },
+  { size: "S", stock: 22 },
+  { size: "M", stock: 28 },
+  { size: "L", stock: 20 },
+  { size: "XL", stock: 10 },
+];
+const THREE_SIZES = [
+  { size: "S", stock: 24 },
+  { size: "M", stock: 30 },
+  { size: "L", stock: 18 },
+];
+const ONE_SIZE = [{ size: "OS", stock: 60 }];
+
+const products: ProductSeed[] = [
   {
-    name: "Discipline Hoodie",
-    category: "Hoodies",
-    collection: "More Than Yesterday",
-    price: 11800,
-    compareAt: null as number | null,
-    color: "Washed black",
-    featured: true,
-    sizes: [
-      { size: "XS", stock: 18 },
-      { size: "S", stock: 26 },
-      { size: "M", stock: 30 },
-      { size: "L", stock: 22 },
-      { size: "XL", stock: 12 },
-    ],
-    images: [IMAGES.hoodie, IMAGES.campaign],
-    description:
-      "A heavyweight training hoodie with a compact fleece handfeel, dropped shoulder, and structured hood for pre-session focus and cold commutes.",
-    reviews: [
-      { rating: 5, title: "Earned a place in rotation", body: "Dense fabric, sharp fit, and reliable after repeated sessions.", author: "Maya C." },
-      { rating: 5, title: "Heavy and warm", body: "Exactly the weight I wanted for fall training mornings.", author: "Jordan E." },
-      { rating: 4, title: "Runs slightly boxy", body: "Great quality, sized down and it fit perfectly.", author: "Sam R." },
-    ],
+    name: "RISE Performance Cap", category: "Accessories", price: 3800, color: "Matte black", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-baseball-cap.jpeg",
+    description: "A low-profile six-panel cap in structured cotton twill with a tonal embroidered R mark and an adjustable rear strap built for training in any weather.",
   },
   {
-    name: "Motion Training Shell",
-    category: "Training",
-    collection: "Training System",
-    price: 14200,
-    compareAt: null,
-    color: "Graphite",
-    featured: true,
-    sizes: [
-      { size: "S", stock: 14 },
-      { size: "M", stock: 22 },
-      { size: "L", stock: 18 },
-      { size: "XL", stock: 9 },
-    ],
-    images: [IMAGES.training, IMAGES.hero],
-    description:
-      "A matte performance shell cut for interval work, warmups, and all-weather sessions with vented panels and quiet stretch.",
-    reviews: [
-      { rating: 5, title: "Great for intervals", body: "Breathes well and the stretch panels move with you.", author: "Priya N." },
-      { rating: 4, title: "Solid shell", body: "Blocks wind nicely, wish it came in more colors.", author: "Alex T." },
-    ],
+    name: "RISE Knit Beanie", category: "Accessories", price: 3200, color: "Black", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-beanie.jpeg",
+    description: "A ribbed-knit beanie with a folded cuff and woven R patch, cut close for cold-weather sessions and early starts.",
   },
   {
-    name: "Summit Layer",
-    category: "Outerwear",
-    collection: "Field Unit",
-    price: 16800,
-    compareAt: 19800,
-    color: "Off black",
-    featured: true,
-    sizes: [
-      { size: "XS", stock: 8 },
-      { size: "S", stock: 14 },
-      { size: "M", stock: 16 },
-      { size: "L", stock: 10 },
-    ],
-    images: [IMAGES.campaign, IMAGES.training],
-    description:
-      "Thermal outerwear with a clean front, bonded seams, and compact insulation for travel, recovery, and low-light miles.",
-    reviews: [
-      { rating: 5, title: "Perfect travel jacket", body: "Packs down small and kept me warm through a cold layover.", author: "Devon K." },
-    ],
+    name: "RISE Compression Tee", category: "Training", price: 5800, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-compression-shirt.jpeg",
+    description: "A second-skin compression tee in four-way stretch fabric that supports muscle recovery and moves cleanly under any training layer.",
   },
   {
-    name: "RISE Recovery Kit",
-    category: "Accessories",
-    collection: "Recovery",
-    price: 6400,
-    compareAt: null,
-    color: "Black / white",
-    featured: false,
-    sizes: [{ size: "OS", stock: 60 }],
-    images: [IMAGES.packaging, IMAGES.hoodie],
-    description:
-      "A compact recovery kit with towel, bands, and grip accessories designed for training bags and hotel-room mobility sessions.",
-    reviews: [
-      { rating: 4, title: "Handy for travel", body: "Good bands, towel is a bit small but overall useful.", author: "Maya C." },
-    ],
+    name: "RISE Cropped Hoodie", category: "Hoodies", price: 9800, color: "Washed black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-cropped-hoodie.jpeg",
+    description: "A cropped-length hoodie in brushed fleece with a relaxed hood and dropped shoulder, built for studio sessions and everyday layering.",
   },
   {
-    name: "Apex Training Tight",
-    category: "Training",
-    collection: "Training System",
-    price: 9600,
-    compareAt: null,
-    color: "Deep black",
-    featured: false,
-    sizes: [
-      { size: "XS", stock: 20 },
-      { size: "S", stock: 24 },
-      { size: "M", stock: 26 },
-      { size: "L", stock: 18 },
-      { size: "XL", stock: 10 },
-    ],
-    images: [IMAGES.hero, IMAGES.training],
-    description:
-      "High-compression training tight with a locked-in waistband, abrasion-resistant panels, and reflective RISE marks.",
-    reviews: [
-      { rating: 5, title: "Locked in fit", body: "No slipping during sprints, waistband stays put.", author: "Jordan E." },
-      { rating: 5, title: "Great compression", body: "Comfortable for long training blocks.", author: "Sam R." },
-    ],
+    name: "RISE Gym Backpack", category: "Accessories", price: 8800, color: "Black", featured: true,
+    sizes: ONE_SIZE, image: "/images/products/rise-gym-backpack.jpeg",
+    description: "A structured training backpack with a ventilated shoe compartment, padded laptop sleeve, and water-resistant shell for gym-to-office days.",
   },
   {
-    name: "Blackout Run Cap",
-    category: "Accessories",
-    collection: "Recovery",
-    price: 4800,
-    compareAt: null,
-    color: "Matte black",
-    featured: false,
-    sizes: [{ size: "OS", stock: 45 }],
-    images: [IMAGES.packaging, IMAGES.campaign],
-    description:
-      "A low-profile cap with fast-dry panels, tonal embroidery, and a short brim for training in sun, rain, or city light.",
-    reviews: [{ rating: 4, title: "Good everyday cap", body: "Dries quickly after rain runs.", author: "Alex T." }],
+    name: "RISE Duffel Bag", category: "Accessories", price: 7800, color: "Black", featured: true,
+    sizes: ONE_SIZE, image: "/images/products/rise-gym-duffel-bag.jpeg",
+    description: "A heavy-canvas duffel with a separate wet/dry compartment and reinforced carry handles, sized for a full training kit.",
   },
   {
-    name: "Ascend Half-Zip",
-    category: "Training",
-    collection: "Training System",
-    price: 10800,
-    compareAt: null,
-    color: "Charcoal",
-    featured: false,
-    sizes: [
-      { size: "S", stock: 16 },
-      { size: "M", stock: 20 },
-      { size: "L", stock: 14 },
-      { size: "XL", stock: 8 },
-    ],
-    images: [IMAGES.training, IMAGES.hoodie],
-    description: "A midweight half-zip with brushed interior fleece for warmups and cooldowns between sets.",
-    reviews: [{ rating: 5, title: "Lives in my gym bag", body: "Perfect warmup layer, breathable zip panel.", author: "Priya N." }],
+    name: "RISE Performance Towel", category: "Accessories", price: 2400, color: "Black / white", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-gym-towel.jpeg",
+    description: "A quick-dry microfiber towel with a woven R mark, compact enough for a gym bag and absorbent enough for a full session.",
   },
   {
-    name: "Overcast Windbreaker",
-    category: "Outerwear",
-    collection: "Field Unit",
-    price: 13200,
-    compareAt: null,
-    color: "Storm grey",
-    featured: false,
-    sizes: [
-      { size: "S", stock: 12 },
-      { size: "M", stock: 18 },
-      { size: "L", stock: 14 },
-    ],
-    images: [IMAGES.campaign, IMAGES.hero],
-    description: "Packable windbreaker with taped seams built for unpredictable weather on long runs.",
-    reviews: [{ rating: 4, title: "Great packable shell", body: "Fits in a small pocket, blocks wind well.", author: "Devon K." }],
+    name: "RISE Lifting Belt", category: "Accessories", price: 6800, color: "Black", featured: false,
+    sizes: THREE_SIZES, image: "/images/products/rise-lifting-belt.jpeg",
+    description: "A contoured leather lifting belt with a double-prong buckle for consistent core bracing through heavy compound lifts.",
   },
   {
-    name: "Foundation Crewneck",
-    category: "Hoodies",
-    collection: "More Than Yesterday",
-    price: 8800,
-    compareAt: null,
-    color: "Off white",
-    featured: false,
-    sizes: [
-      { size: "XS", stock: 14 },
-      { size: "S", stock: 20 },
-      { size: "M", stock: 24 },
-      { size: "L", stock: 16 },
-      { size: "XL", stock: 8 },
-    ],
-    images: [IMAGES.hoodie, IMAGES.hero],
-    description: "A midweight crewneck with a clean chest mark, built for daily wear before and after training.",
-    reviews: [{ rating: 5, title: "Simple and heavy", body: "Exactly the weight and fit I look for in a crew.", author: "Maya C." }],
+    name: "RISE Lifting Straps", category: "Accessories", price: 2200, color: "Black", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-lifting-straps.jpeg",
+    description: "Cotton-reinforced lifting straps with a padded wrist loop, built to hold grip through pulls, rows, and deadlifts.",
   },
   {
-    name: "Grip Training Gloves",
-    category: "Accessories",
-    collection: "Training System",
-    price: 3800,
-    compareAt: null,
-    color: "Black",
-    featured: false,
-    sizes: [
-      { size: "S", stock: 20 },
-      { size: "M", stock: 26 },
-      { size: "L", stock: 18 },
-    ],
-    images: [IMAGES.packaging, IMAGES.training],
-    description: "Textured grip gloves with breathable mesh backing for lifting and mixed training sessions.",
-    reviews: [],
+    name: "RISE Training Joggers", category: "Training", price: 8200, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-mens-joggers.jpeg",
+    description: "Tapered training joggers in a brushed technical knit with zip pockets and an internal drawcord for interval work and travel days.",
   },
+  {
+    name: "RISE Pullover Hoodie", category: "Hoodies", price: 10800, color: "Black", featured: true,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-mens-pullover-hoodie.jpeg",
+    description: "The signature RISE pullover in heavyweight fleece with a structured hood, kangaroo pocket, and tonal R chest mark.",
+  },
+  {
+    name: "RISE Training Tee", category: "Training", price: 4200, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-mens-training-tee.jpeg",
+    description: "A lightweight training tee in breathable jersey with a dropped hem and reflective back print for low-light sessions.",
+  },
+  {
+    name: "RISE Resistance Bands Set", category: "Accessories", price: 3400, color: "Black / white", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-resistance-bands.jpeg",
+    description: "A three-tension resistance band set with a woven carry pouch, built for warmups, mobility work, and travel training.",
+  },
+  {
+    name: "RISE Shaker Bottle", category: "Accessories", price: 1800, color: "Black / white", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-shaker-bottle.jpeg",
+    description: "A 700ml shaker bottle with a wire whisk ball and leakproof flip lid, marked with the RISE wordmark.",
+  },
+  {
+    name: "RISE Training Gloves", category: "Accessories", price: 3600, color: "Black", featured: false,
+    sizes: THREE_SIZES, image: "/images/products/rise-training-gloves.jpeg",
+    description: "Textured grip gloves with a breathable mesh back and wrist strap, built for lifting sessions and mixed training.",
+  },
+  {
+    name: "RISE Training Jacket", category: "Outerwear", price: 14800, compareAt: 17800, color: "Off black", featured: true,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-training-jacket.jpeg",
+    description: "A water-resistant training jacket with taped seams, a packable hood, and vented side panels for interval work in any weather.",
+  },
+  {
+    name: "RISE Training Socks", category: "Accessories", price: 1600, color: "Black", featured: false,
+    sizes: THREE_SIZES, image: "/images/products/rise-training-socks.jpeg",
+    description: "Cushioned crew socks in a compression knit with arch support, built to hold up through daily training blocks.",
+  },
+  {
+    name: "RISE Water Bottle", category: "Accessories", price: 2800, color: "Matte black", featured: false,
+    sizes: ONE_SIZE, image: "/images/products/rise-water-bottle.jpeg",
+    description: "An insulated stainless steel bottle that holds temperature through a full session, finished with the tonal R mark.",
+  },
+  {
+    name: "RISE Women's Leggings", category: "Training", price: 7800, color: "Black", featured: true,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-leggings.jpeg",
+    description: "High-rise leggings in compressive four-way stretch with a hidden waistband pocket, built for lifting through to studio work.",
+  },
+  {
+    name: "RISE Women's Quarter-Zip", category: "Training", price: 9200, color: "Charcoal", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-quarter-zip.jpeg",
+    description: "A fitted quarter-zip pullover in brushed technical fleece, cut close for warmups and cool-weather training days.",
+  },
+  {
+    name: "RISE Women's Racerback Tank", category: "Training", price: 3800, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-racerback-tank.jpeg",
+    description: "A racerback training tank in lightweight jersey with a relaxed drape and full range of motion for lifting and cardio work.",
+  },
+  {
+    name: "RISE Women's Sports Bra", category: "Training", price: 4600, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-sports-bra.jpeg",
+    description: "A medium-support sports bra in compressive stretch fabric with a racerback cut, built for high-output training sessions.",
+  },
+  {
+    name: "RISE Women's Training Shorts", category: "Training", price: 5200, color: "Black", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-training-shorts.jpeg",
+    description: "Lined training shorts with a compressive inner short and side pocket, cut for lifting, conditioning, and studio classes.",
+  },
+  {
+    name: "RISE Women's Training Tee", category: "Training", price: 4000, color: "Off white", featured: false,
+    sizes: APPAREL_SIZES, image: "/images/products/rise-womens-training-tee.jpeg",
+    description: "A relaxed-fit training tee in soft-washed jersey with a dropped shoulder and tonal chest mark for daily rotation.",
+  },
+];
+
+const reviewBank: [number, string, string, string][] = [
+  [5, "Exactly what I needed", "Quality is solid and it fits true to size.", "Maya C."],
+  [5, "In constant rotation", "Wears well through repeated training sessions.", "Jordan E."],
+  [4, "Great everyday piece", "Comfortable and holds up in the wash.", "Sam R."],
+  [5, "Worth it", "Fabric feels heavier than the price suggests.", "Priya N."],
 ];
 
 const customers = [
@@ -285,22 +239,23 @@ async function main() {
 
   console.log("Creating products...");
   const createdProducts: Product[] = [];
-  for (const product of products) {
+  for (const [index, product] of products.entries()) {
     const slug = slugify(product.name);
+    const review = index % 3 === 0 ? reviewBank[index % reviewBank.length] : null;
     const created = await prisma.product.create({
       data: {
         slug,
         name: product.name,
         description: product.description,
         category: product.category,
-        collection: product.collection,
+        collection: "RISE Originals",
         color: product.color,
         price: product.price,
-        compareAt: product.compareAt,
+        compareAt: product.compareAt ?? null,
         featured: product.featured,
         status: "active",
         images: {
-          create: product.images.map((url, position) => ({ url, alt: product.name, position })),
+          create: [{ url: product.image, alt: product.name, position: 0 }],
         },
         variants: {
           create: product.sizes.map((variant) => ({
@@ -309,14 +264,9 @@ async function main() {
             sku: `${slug.toUpperCase()}-${variant.size}`,
           })),
         },
-        reviews: {
-          create: product.reviews.map((review) => ({
-            rating: review.rating,
-            title: review.title,
-            body: review.body,
-            author: review.author,
-          })),
-        },
+        reviews: review
+          ? { create: [{ rating: review[0], title: review[1], body: review[2], author: review[3] }] }
+          : undefined,
       },
     });
     createdProducts.push(created);
@@ -333,8 +283,8 @@ async function main() {
       carrier: "UPS",
       daysAgo: 3,
       items: [
-        { product: findProduct("Discipline Hoodie"), size: "M", quantity: 1 },
-        { product: findProduct("Motion Training Shell"), size: "M", quantity: 1 },
+        { product: findProduct("RISE Pullover Hoodie"), size: "M", quantity: 1 },
+        { product: findProduct("RISE Training Joggers"), size: "M", quantity: 1 },
       ],
     },
     {
@@ -343,7 +293,7 @@ async function main() {
       trackingNumber: null,
       carrier: null,
       daysAgo: 2,
-      items: [{ product: findProduct("Summit Layer"), size: "M", quantity: 1 }],
+      items: [{ product: findProduct("RISE Training Jacket"), size: "M", quantity: 1 }],
     },
     {
       customer: customerUsers[2],
@@ -352,9 +302,9 @@ async function main() {
       carrier: "USPS",
       daysAgo: 1,
       items: [
-        { product: findProduct("Apex Training Tight"), size: "M", quantity: 1 },
-        { product: findProduct("RISE Recovery Kit"), size: "OS", quantity: 1 },
-        { product: findProduct("Blackout Run Cap"), size: "OS", quantity: 1 },
+        { product: findProduct("RISE Compression Tee"), size: "M", quantity: 1 },
+        { product: findProduct("RISE Shaker Bottle"), size: "OS", quantity: 1 },
+        { product: findProduct("RISE Performance Cap"), size: "OS", quantity: 1 },
       ],
     },
     {
@@ -363,7 +313,7 @@ async function main() {
       trackingNumber: "1Z84RSE1050",
       carrier: "UPS",
       daysAgo: 10,
-      items: [{ product: findProduct("Ascend Half-Zip"), size: "M", quantity: 2 }],
+      items: [{ product: findProduct("RISE Women's Quarter-Zip"), size: "M", quantity: 2 }],
     },
     {
       customer: customerUsers[4],
@@ -371,7 +321,7 @@ async function main() {
       trackingNumber: null,
       carrier: null,
       daysAgo: 15,
-      items: [{ product: findProduct("Overcast Windbreaker"), size: "L", quantity: 1 }],
+      items: [{ product: findProduct("RISE Women's Training Shorts"), size: "L", quantity: 1 }],
     },
     {
       customer: customerUsers[5],
@@ -380,8 +330,8 @@ async function main() {
       carrier: "FedEx",
       daysAgo: 20,
       items: [
-        { product: findProduct("Foundation Crewneck"), size: "L", quantity: 1 },
-        { product: findProduct("Grip Training Gloves"), size: "M", quantity: 1 },
+        { product: findProduct("RISE Cropped Hoodie"), size: "L", quantity: 1 },
+        { product: findProduct("RISE Training Gloves"), size: "M", quantity: 1 },
       ],
     },
     {
@@ -390,7 +340,7 @@ async function main() {
       trackingNumber: null,
       carrier: null,
       daysAgo: 2,
-      items: [{ product: findProduct("Foundation Crewneck"), size: "S", quantity: 1 }],
+      items: [{ product: findProduct("RISE Women's Training Tee"), size: "S", quantity: 1 }],
     },
   ];
 
@@ -440,10 +390,10 @@ async function main() {
   console.log("Creating wishlist items...");
   await prisma.wishlistItem.createMany({
     data: [
-      { userId: customerUsers[0].id, productId: findProduct("Summit Layer").id },
-      { userId: customerUsers[0].id, productId: findProduct("Overcast Windbreaker").id },
-      { userId: customerUsers[1].id, productId: findProduct("Discipline Hoodie").id },
-      { userId: customerUsers[2].id, productId: findProduct("Ascend Half-Zip").id },
+      { userId: customerUsers[0].id, productId: findProduct("RISE Training Jacket").id },
+      { userId: customerUsers[0].id, productId: findProduct("RISE Women's Training Shorts").id },
+      { userId: customerUsers[1].id, productId: findProduct("RISE Pullover Hoodie").id },
+      { userId: customerUsers[2].id, productId: findProduct("RISE Women's Quarter-Zip").id },
     ],
   });
 
@@ -459,7 +409,7 @@ async function main() {
   console.log("Creating banners...");
   await prisma.banner.createMany({
     data: [
-      { title: "More Than Yesterday", subtitle: "Fall training collection now live", imageUrl: IMAGES.hero, ctaLabel: "Shop drop", ctaHref: "/shop", active: true, position: 0 },
+      { title: "More Than Yesterday", subtitle: "Fall training collection now live", imageUrl: "/images/hero.jpeg", ctaLabel: "Shop drop", ctaHref: "/shop", active: true, position: 0 },
       { title: "Free shipping over $150", subtitle: "Applies automatically at checkout", active: true, position: 1 },
     ],
   });
