@@ -17,7 +17,7 @@ export function HeroCarousel({ images, children }: { images: string[]; children:
   }, [images.length]);
 
   return (
-    <section className="relative min-h-[94svh] overflow-hidden">
+    <section className="relative min-h-[82svh] overflow-hidden lg:min-h-[88svh]">
       {images.map((src, imageIndex) => (
         <div
           key={src}
@@ -36,8 +36,8 @@ export function HeroCarousel({ images, children }: { images: string[]; children:
           />
         </div>
       ))}
-      <div className="absolute inset-0 bg-black/48" />
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#050505] to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-black/5" />
+      <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#050505] to-transparent" />
       {children}
       {images.length > 1 ? (
         <div className="absolute bottom-6 right-4 z-10 flex items-center gap-2 sm:right-6 lg:right-8">
