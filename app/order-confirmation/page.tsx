@@ -24,7 +24,7 @@ export default async function Page({
     <StorefrontShell hideFooter hideMobileNav hideHeader>
       <section className="mx-auto max-w-2xl px-4 pb-16 pt-16 sm:px-6 lg:px-8">
         <div className="fade-in flex flex-col items-center text-center">
-          <span className="confirm-pop glass-strong grid size-20 place-items-center rounded-full">
+          <span className="confirm-pop panel-strong grid size-20 place-items-center rounded-full">
             <Check size={36} strokeWidth={2.6} />
           </span>
           <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">
@@ -40,7 +40,7 @@ export default async function Page({
           </p>
 
           {order ? (
-            <div className="mt-8 grid w-full gap-2 rounded-[20px] glass p-5 text-left text-sm text-white/70">
+            <div className="mt-8 grid w-full gap-2 rounded-[20px] panel p-5 text-left text-sm text-white/70">
               {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between">
                   <span>

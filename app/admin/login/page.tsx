@@ -11,7 +11,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ e
 
   return (
     <main className="grid min-h-screen place-items-center bg-black px-4 text-white">
-      <section className="w-full max-w-md glass rounded-[20px] p-6">
+      <section className="w-full max-w-md panel rounded-[20px] p-6">
         <div className="mb-8">
           <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Secure admin login</p>
           <h1 className="mt-3 text-2xl font-black uppercase">RISE console</h1>

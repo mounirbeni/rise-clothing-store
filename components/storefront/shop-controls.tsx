@@ -58,7 +58,7 @@ export function ShopControls({
               event.preventDefault();
               pushParams({ q: query });
             }}
-            className="glass flex h-12 flex-1 items-center gap-3 rounded-[20px] px-4"
+            className="panel flex h-12 flex-1 items-center gap-3 rounded-[20px] px-4"
           >
             <Search size={16} className="text-white/45" />
             <input

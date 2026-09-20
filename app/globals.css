@@ -74,6 +74,22 @@ button {
     0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
+/* Solid (non-blurred) dark surfaces: used everywhere the old glass blur
+   used to apply except on buttons — nav bars, docks, cards, sheets,
+   drawers, badges. No backdrop-filter, just a flat dark panel with a
+   subtle border, keeping the "liquid glass" look reserved for buttons. */
+.panel {
+  background: #121213;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.panel-strong {
+  background: #0d0d0e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
 .glass-light {
   background: linear-gradient(155deg, rgba(255, 255, 255, 0.92), rgba(240, 244, 255, 0.72));
   backdrop-filter: blur(20px) saturate(180%);

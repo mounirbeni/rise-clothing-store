@@ -190,7 +190,7 @@ export function CheckoutClient() {
             <>
               <h1 className="text-3xl font-black uppercase leading-[0.95]">Shipping details</h1>
               <p className="mt-2 text-sm leading-6 text-white/55">Where should we send your order?</p>
-              <div className="glass mt-6 grid gap-3 rounded-[20px] p-5">
+              <div className="panel mt-6 grid gap-3 rounded-[20px] p-5">
                 <input
                   required
                   type="email"
@@ -261,7 +261,7 @@ export function CheckoutClient() {
                       Edit
                     </Link>
                   </div>
-                  <div className="glass grid gap-3.5 rounded-[20px] p-4">
+                  <div className="panel grid gap-3.5 rounded-[20px] p-4">
                     {lines.map((item) => (
                       <div key={`${item.id}-${item.size}`} className="flex gap-3">
                         <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-[20px] bg-zinc-900">
@@ -307,8 +307,8 @@ export function CheckoutClient() {
                       Edit
                     </button>
                   </div>
-                  <div className="glass flex items-center gap-3 rounded-[20px] p-3.5">
-                    <span className="glass grid size-10 shrink-0 place-items-center rounded-full">
+                  <div className="panel flex items-center gap-3 rounded-[20px] p-3.5">
+                    <span className="panel grid size-10 shrink-0 place-items-center rounded-full">
                       <Truck size={17} />
                     </span>
                     <div className="min-w-0 flex-1">
@@ -328,7 +328,7 @@ export function CheckoutClient() {
                       Edit
                     </button>
                   </div>
-                  <div className="glass flex items-center gap-3 rounded-[20px] p-3.5">
+                  <div className="panel flex items-center gap-3 rounded-[20px] p-3.5">
                     <span className="grid h-10 w-14 shrink-0 place-items-center rounded-[8px] border border-white/25 text-[10px] font-black italic tracking-wide">
                       VISA
                     </span>
@@ -342,7 +342,7 @@ export function CheckoutClient() {
 
                 <div>
                   <p className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/45">Order summary</p>
-                  <div className="glass grid gap-1.5 rounded-[20px] p-4 text-sm">
+                  <div className="panel grid gap-1.5 rounded-[20px] p-4 text-sm">
                     <Row label="Subtotal" value={formatCurrency(subtotal)} />
                     <Row label="Shipping" value={estimatedShipping === 0 ? "Free" : formatCurrency(estimatedShipping)} />
                     <Row
@@ -374,7 +374,7 @@ export function CheckoutClient() {
               <p className="mt-2 text-sm leading-6 text-white/55">
                 RISE checkout is powered by Stripe. Card details are entered on Stripe&apos;s secure page after you place your order.
               </p>
-              <div className="glass mt-6 rounded-[20px] p-5">
+              <div className="panel mt-6 rounded-[20px] p-5">
                 <div className="flex h-14 items-center justify-between rounded-[20px] border border-white bg-white/5 px-4">
                   <span className="text-sm font-bold">Card / Stripe secure checkout</span>
                   <span className="grid size-5 place-items-center rounded-full bg-white">
@@ -382,7 +382,7 @@ export function CheckoutClient() {
                   </span>
                 </div>
               </div>
-              <div className="glass mt-4 rounded-[20px] p-5">
+              <div className="panel mt-4 rounded-[20px] p-5">
                 <p className="mb-3 text-sm font-black uppercase tracking-[0.12em]">Discount code</p>
                 <input
                   placeholder="Optional"
@@ -407,7 +407,7 @@ export function CheckoutClient() {
 
       {step !== 2 ? (
         <div className="safe-bottom safe-x fixed inset-x-0 bottom-0 z-30 px-3 pb-3">
-          <div className="glass-strong mx-auto flex w-full max-w-2xl items-center gap-3 rounded-[20px] p-3">
+          <div className="panel-strong mx-auto flex w-full max-w-2xl items-center gap-3 rounded-[20px] p-3">
             {step === 0 ? (
               <button
                 onClick={goToReview}

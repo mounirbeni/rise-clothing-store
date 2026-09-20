@@ -14,7 +14,7 @@ export default function Page() {
             ["Returns", "Unworn products can be returned within 30 days. Staff can create refunds and notes in the admin order view."],
             ["Tracking", "Tracking numbers are attached to the customer order history as soon as fulfillment starts."],
           ].map(([title, text]) => (
-            <section key={title} className="glass rounded-[20px] p-5">
+            <section key={title} className="panel rounded-[20px] p-5">
               <h2 className="text-lg font-black uppercase">{title}</h2>
               <p className="mt-2 text-sm leading-6 text-white/62">{text}</p>
             </section>

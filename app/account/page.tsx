@@ -29,7 +29,7 @@ export default async function Page() {
         <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">{customer.name}</h1>
         <p className="mt-3 text-white/50">{customer.email}</p>
         <div className="mt-10 grid gap-5 lg:grid-cols-[320px_1fr]">
-          <aside className="h-fit glass rounded-[20px] p-5">
+          <aside className="h-fit panel rounded-[20px] p-5">
             {links.map(([label, Icon, href]) => (
               <Link
                 key={label}
@@ -46,7 +46,7 @@ export default async function Page() {
             </form>
           </aside>
           <div className="grid gap-5">
-            <section className="glass rounded-[20px] p-5">
+            <section className="panel rounded-[20px] p-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-black uppercase">Overview</h2>
               </div>
@@ -56,7 +56,7 @@ export default async function Page() {
                 <Stat label="Wishlist items" value={String(customer.wishlist.length)} />
               </div>
             </section>
-            <section className="glass rounded-[20px] p-5">
+            <section className="panel rounded-[20px] p-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-black uppercase">Recent orders</h2>
                 <Link href="/account/orders" className="text-sm font-black uppercase tracking-[0.12em] text-white/60 hover:text-white">
@@ -65,7 +65,7 @@ export default async function Page() {
               </div>
               <div className="mt-5 grid gap-3">
                 {customer.orders.slice(0, 3).map((order) => (
-                  <div key={order.id} className="grid gap-2 glass rounded-[20px] p-4 sm:grid-cols-[1fr_auto]">
+                  <div key={order.id} className="grid gap-2 panel rounded-[20px] p-4 sm:grid-cols-[1fr_auto]">
                     <div>
                       <p className="font-black">
                         {order.orderNumber} / {order.status.replace("_", " ")}
@@ -89,7 +89,7 @@ export default async function Page() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="glass rounded-[20px] p-4">
+    <div className="panel rounded-[20px] p-4">
       <p className="text-xs font-bold uppercase tracking-[0.14em] text-white/45">{label}</p>
       <p className="mt-2 text-2xl font-black">{value}</p>
     </div>

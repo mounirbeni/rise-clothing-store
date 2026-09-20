@@ -92,7 +92,7 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 px-4 pb-12 sm:px-6 sm:pb-14 lg:px-8">
-              <div className="glass-strong mx-auto max-w-md rounded-[20px] p-7 sm:p-8">
+              <div className="panel-strong mx-auto max-w-md rounded-[20px] p-7 sm:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{slide.subtitle}</p>
                 <h3 className="mt-3 text-xl font-black uppercase leading-[1.05] sm:text-2xl lg:text-3xl">
                   {slide.title}

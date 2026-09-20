@@ -25,7 +25,7 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="grid gap-4 glass rounded-[20px] p-5">
+      <div className="grid gap-4 panel rounded-[20px] p-5">
         <p className="text-2xl font-black uppercase">Message sent</p>
         <p className="leading-7 text-white/62">
           Thanks for reaching out. The RISE support team responds within one business day.
@@ -41,7 +41,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-4 glass rounded-[20px] p-5">
+    <form onSubmit={submit} className="grid gap-4 panel rounded-[20px] p-5">
       <label className="grid gap-2 text-sm font-bold uppercase tracking-[0.14em] text-white/55">
         Name
         <input

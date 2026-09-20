@@ -11,7 +11,7 @@ export default function Page() {
         <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">FAQ</h1>
         <div className="mt-10 grid gap-3">
           {faqs.map(([question, answer]) => (
-            <details key={question} className="glass rounded-[20px] px-5 py-4">
+            <details key={question} className="panel rounded-[20px] px-5 py-4">
               <summary className="cursor-pointer text-base font-black uppercase">{question}</summary>
               <p className="mt-3 text-sm leading-6 text-white/62">{answer}</p>
             </details>

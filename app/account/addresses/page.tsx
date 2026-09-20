@@ -31,7 +31,7 @@ export default async function Page() {
               />
             ) : (
               addresses.map((address) => (
-                <div key={address.id} className="grid gap-2 glass rounded-[20px] p-5 sm:grid-cols-[1fr_auto]">
+                <div key={address.id} className="grid gap-2 panel rounded-[20px] p-5 sm:grid-cols-[1fr_auto]">
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="font-black">{address.label}</p>
@@ -62,7 +62,7 @@ export default async function Page() {
               ))
             )}
           </div>
-          <form action="/api/account/addresses" method="post" className="h-fit glass rounded-[20px] p-5">
+          <form action="/api/account/addresses" method="post" className="h-fit panel rounded-[20px] p-5">
             <h2 className="text-lg font-black uppercase">Add address</h2>
             <div className="mt-4 grid gap-3">
               {[

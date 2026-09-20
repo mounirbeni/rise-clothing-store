@@ -126,7 +126,7 @@ export default async function HomePage() {
             className="object-cover"
           />
         </div>
-        <div className="glass-strong flex items-center px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
+        <div className="panel-strong flex items-center px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
           <div className="max-w-lg">
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/50">
               Discipline collection

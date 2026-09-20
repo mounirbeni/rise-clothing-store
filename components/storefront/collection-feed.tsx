@@ -28,7 +28,7 @@ export function CollectionFeed({ items }: { items: { category: string; image: st
               className="object-cover transition duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent" />
-            <div className="glass-strong absolute inset-x-3 bottom-3 flex items-center justify-between rounded-[20px] px-4 py-3">
+            <div className="panel-strong absolute inset-x-3 bottom-3 flex items-center justify-between rounded-[20px] px-4 py-3">
               <span className="text-sm font-black uppercase tracking-[0.1em]">{item.category}</span>
               <ChevronRight size={16} />
             </div>

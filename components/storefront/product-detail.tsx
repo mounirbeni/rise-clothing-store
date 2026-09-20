@@ -234,7 +234,7 @@ export function ProductDetail({
 
         <div className="px-5 pb-32 pt-4">
           {totalStock > 0 && totalStock < 20 ? (
-            <span className="glass mb-2 inline-block rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white">
+            <span className="panel mb-2 inline-block rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white">
               Low stock
             </span>
           ) : null}
@@ -296,7 +296,7 @@ export function ProductDetail({
         </div>
 
         <div className="safe-bottom safe-x fixed inset-x-0 bottom-0 z-30 px-3 pb-3">
-          <div className="glass-strong flex items-center gap-3 rounded-[20px] p-2.5 pl-5">
+          <div className="panel-strong flex items-center gap-3 rounded-[20px] p-2.5 pl-5">
             <p className="shrink-0 text-base font-black">{formatCurrency(product.price)}</p>
             <button
               disabled={stock === 0}
@@ -439,7 +439,7 @@ export function ProductDetail({
               <p className="text-white/50">Be the first to review this product.</p>
             ) : (
               localReviews.map((review) => (
-                <div key={review.id} className="glass rounded-[20px] p-5">
+                <div key={review.id} className="panel rounded-[20px] p-5">
                   <div className="flex items-center justify-between">
                     <p className="font-black">{review.title}</p>
                     <span className="inline-flex items-center gap-1 text-sm">
@@ -454,7 +454,7 @@ export function ProductDetail({
               ))
             )}
           </div>
-          <form onSubmit={submitReview} className="glass h-fit rounded-[20px] p-5">
+          <form onSubmit={submitReview} className="panel h-fit rounded-[20px] p-5">
             <h3 className="text-base font-black uppercase">Write a review</h3>
             <div className="mt-4 grid gap-3">
               <label className="grid gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/50">

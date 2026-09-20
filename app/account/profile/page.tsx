@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
       <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
         <p className="text-sm font-black uppercase tracking-[0.24em] text-white/45">Account</p>
         <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl">Profile settings</h1>
-        <form action="/api/account/profile" method="post" className="mt-10 grid gap-4 glass rounded-[20px] p-5">
+        <form action="/api/account/profile" method="post" className="mt-10 grid gap-4 panel rounded-[20px] p-5">
           <label className="grid gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/50">
             Full name
             <input

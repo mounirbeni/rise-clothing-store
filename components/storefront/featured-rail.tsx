@@ -64,7 +64,7 @@ function RailCard({ product }: { product: ProductCardData }) {
             className="object-cover"
           />
         </Link>
-        <span className="glass pointer-events-none absolute left-2 top-2 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white">
+        <span className="panel pointer-events-none absolute left-2 top-2 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white">
           Rise Originals
         </span>
         <button

@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         ) : null}
         <div className="mt-8 grid gap-3">
           {order.items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between glass rounded-[20px] p-4">
+            <div key={item.id} className="flex items-center justify-between panel rounded-[20px] p-4">
               <div>
                 <p className="font-bold">{item.name}</p>
                 <p className="text-sm text-white/45">Size {item.size} / Qty {item.quantity}</p>

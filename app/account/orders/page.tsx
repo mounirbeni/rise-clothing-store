@@ -32,7 +32,7 @@ export default async function Page() {
               <Link
                 key={order.id}
                 href={`/account/orders/${order.id}`}
-                className="tap-scale grid gap-3 glass rounded-[20px] p-5 transition sm:grid-cols-[1fr_auto]"
+                className="tap-scale grid gap-3 panel rounded-[20px] p-5 transition sm:grid-cols-[1fr_auto]"
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">

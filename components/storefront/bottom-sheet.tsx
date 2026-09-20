@@ -53,7 +53,7 @@ export function BottomSheet({
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={SPRING}
-            className="glass-strong safe-bottom fixed inset-x-0 bottom-0 z-[70] flex max-h-[80svh] w-full flex-col rounded-t-[20px] text-[#f7f7f2] sm:inset-x-auto sm:bottom-8 sm:left-1/2 sm:max-h-[75svh] sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:rounded-[20px]"
+            className="panel-strong safe-bottom fixed inset-x-0 bottom-0 z-[70] flex max-h-[80svh] w-full flex-col rounded-t-[20px] text-[#f7f7f2] sm:inset-x-auto sm:bottom-8 sm:left-1/2 sm:max-h-[75svh] sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:rounded-[20px]"
           >
             <div className="flex justify-center pb-1 pt-2.5 sm:hidden">
               <span className="h-1.5 w-10 rounded-full bg-white/25" />
