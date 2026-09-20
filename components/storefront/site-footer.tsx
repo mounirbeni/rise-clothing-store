@@ -15,7 +15,7 @@ export function SiteFooter() {
           <Link href="/faq" className="hover:text-white">FAQ</Link>
           <Link href="/shipping-returns" className="hover:text-white">Shipping & Returns</Link>
           <Link href="/contact" className="hover:text-white">Contact</Link>
-          <Link href="/admin/login" className="hover:text-white">Admin</Link>
+          <Link href="/story" className="hover:text-white">Our Story</Link>
         </div>
       </div>
     </footer>
