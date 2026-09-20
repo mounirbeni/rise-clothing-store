@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronRight, Menu, Search, ShoppingBag, User, X } from "lucide-react";
@@ -36,8 +37,8 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
         >
           <Menu size={19} />
         </button>
-        <Link href="/" className="text-xl font-black tracking-[0.28em]">
-          RISE
+        <Link href="/" aria-label="RISE home" className="shrink-0">
+          <Image src="/brand/rise-logo-wordmark.png" alt="RISE" width={144} height={38} className="h-7 w-auto sm:h-8" priority />
         </Link>
         <div className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-[0.18em] text-white/70 lg:flex">
           {links.map(([label, href]) => (
@@ -108,7 +109,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
       {menuOpen ? (
         <div className="safe-top safe-bottom fixed inset-0 z-50 bg-black/70 backdrop-blur-2xl lg:hidden">
           <div className="glass mx-3 mt-3 flex h-14 items-center justify-between rounded-[20px] px-4">
-            <span className="font-black tracking-[0.28em]">RISE</span>
+            <Image src="/brand/rise-logo-wordmark.png" alt="RISE" width={144} height={38} className="h-7 w-auto" />
             <button
               aria-label="Close menu"
               onClick={() => setMenuOpen(false)}
