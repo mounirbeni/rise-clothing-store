@@ -54,18 +54,12 @@ export default async function HomePage() {
             <br />
             Builds Different
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6">
             <Link
               href="/shop"
               className="tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] bg-white px-6 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
             >
               Shop drop <ChevronRight size={16} />
-            </Link>
-            <Link
-              href="/collection"
-              className="glass tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] px-6 text-xs font-black uppercase tracking-[0.18em] text-white"
-            >
-              View campaign
             </Link>
           </div>
         </div>

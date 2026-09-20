@@ -11,7 +11,8 @@ export function SiteFooter() {
             Worldwide performance clothing
           </p>
         </div>
-        <div className="grid gap-4 text-sm uppercase tracking-[0.16em] text-white/56 sm:grid-cols-4 sm:gap-6 lg:items-start lg:pt-1">
+        <div className="grid gap-4 text-sm uppercase tracking-[0.16em] text-white/56 sm:grid-cols-2 sm:gap-6 lg:grid-cols-5 lg:items-start lg:pt-1">
+          <Link href="/journal" className="hover:text-white">Journal</Link>
           <Link href="/faq" className="hover:text-white">FAQ</Link>
           <Link href="/shipping-returns" className="hover:text-white">Shipping & Returns</Link>
           <Link href="/contact" className="hover:text-white">Contact</Link>

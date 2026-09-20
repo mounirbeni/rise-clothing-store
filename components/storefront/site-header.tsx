@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRight, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { ChevronRight, Search, ShoppingBag, User, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/providers/cart-provider";
 
@@ -15,7 +15,6 @@ const links: [string, string][] = [
 ];
 
 export function SiteHeader({ authed }: { authed?: boolean }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const { count, setBagOpen } = useCart();
@@ -29,14 +28,7 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
 
   return (
     <header className="safe-top fixed inset-x-0 top-0 z-40 px-3 pt-3">
-      <nav className="panel mx-auto flex h-14 max-w-7xl items-center justify-between rounded-[20px] px-3 sm:px-5">
-        <button
-          aria-label="Open menu"
-          onClick={() => setMenuOpen(true)}
-          className="tap-scale grid size-10 place-items-center rounded-full text-white lg:hidden"
-        >
-          <Menu size={19} />
-        </button>
+      <nav className="panel mx-auto flex h-14 max-w-7xl items-center justify-between rounded-[20px] px-4 sm:px-5">
         <Link href="/" aria-label="RISE home" className="shrink-0">
           <Image src="/brand/rise-logo-wordmark.png" alt="RISE" width={144} height={38} className="h-7 w-auto sm:h-8" priority />
         </Link>
@@ -103,39 +95,6 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
             >
               Search <ChevronRight size={16} />
             </button>
-          </div>
-        </div>
-      ) : null}
-      {menuOpen ? (
-        <div className="safe-top safe-bottom fixed inset-0 z-50 bg-black/70 backdrop-blur-2xl lg:hidden">
-          <div className="panel mx-3 mt-3 flex h-14 items-center justify-between rounded-[20px] px-4">
-            <Image src="/brand/rise-logo-wordmark.png" alt="RISE" width={144} height={38} className="h-7 w-auto" />
-            <button
-              aria-label="Close menu"
-              onClick={() => setMenuOpen(false)}
-              className="tap-scale grid size-10 place-items-center rounded-full text-white"
-            >
-              <X size={19} />
-            </button>
-          </div>
-          <div className="mx-3 mt-3 grid gap-2">
-            {links.map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMenuOpen(false)}
-                className="glass tap-scale rounded-[20px] px-5 py-5 text-3xl font-black uppercase"
-              >
-                {label}
-              </Link>
-            ))}
-            <Link
-              href={authed ? "/account" : "/account/login"}
-              onClick={() => setMenuOpen(false)}
-              className="glass tap-scale rounded-[20px] px-5 py-5 text-3xl font-black uppercase"
-            >
-              {authed ? "Account" : "Sign in"}
-            </Link>
           </div>
         </div>
       ) : null}
