@@ -8,11 +8,11 @@
 
 ## Implementation evidence
 
-- Local implementation: `http://terminal.local:4173/`.
-- Browser-rendered capture state: blocked by `PrismaClientInitializationError` because `DATABASE_URL` is not available in the local preview environment.
-- Console evidence: `Environment variable not found: DATABASE_URL` while resolving homepage banners and products.
-- Screenshot comparison: unavailable; local app rendered the project error boundary rather than the storefront.
-- Primary interactions tested: local route load only; product rail, add-to-bag, sticky product CTA, and checkout cannot be exercised until the preview has its configured database environment.
+- Verified preview: `https://rise-clothing-store-eieszqv1h-mounirs-projects-975013a5.vercel.app/`.
+- Browser-rendered capture state: the Vercel preview loads the home hero and catalog correctly using its configured environment. Desktop capture used the cloud-browser viewport (approximately 1348 x 923).
+- Comparison at the captured viewport: the dark cinematic hero, chrome floating header, oversized `MORE THAN YESTERDAY` display type, restrained primary CTA, and elevated product controls are present. The intentional desktop layout expands the app-first composition rather than duplicating the 390px reference verbatim.
+- Primary interactions tested: opened `/shop`, verified 24 add-to-bag controls, added the RISE Performance Cap, opened the shopping bag, followed its `Checkout` link, and confirmed the checkout delivery step, bag summary, subtotal, and remove action. No payment was submitted.
+- Console evidence: no application runtime error was observed in the Vercel preview. Browser-extension metadata messages were excluded as unrelated to the app.
 
 ## Changes implemented
 
@@ -33,11 +33,11 @@
 
 ## Findings
 
-- [P0] Local design QA is blocked.
-  Location: local homepage runtime.
-  Evidence: the browser renders the error boundary because Prisma cannot resolve `DATABASE_URL`.
-  Impact: no valid implementation screenshot exists to compare against the selected design.
-  Fix: open a Vercel preview deployment for this branch, where the project environment is available, then compare the mobile storefront route and test the product and checkout flows.
+- [P2] Exact mobile visual comparison remains pending.
+  Location: 390 x 844 target viewport.
+  Evidence: the available cloud browser supplied a desktop viewport only; it could not emulate the selected 390px target for a like-for-like capture.
+  Impact: the implementation is verified functionally in the live preview and its responsive mobile styles are present in code, but final pixel-level comparison against the selected mobile reference needs a physical phone or a browser with viewport emulation.
+  Fix: open the verified preview on a 390px-wide device, capture the home, product, and checkout states, and resolve any visible P0/P1/P2 findings before marking this QA report as passed.
 
 ## Final result
 
