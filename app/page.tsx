@@ -5,8 +5,16 @@ import { StorefrontShell } from "@/components/storefront/storefront-shell";
 import { ProductGrid } from "@/components/storefront/product-card";
 import { BrandPillars } from "@/components/storefront/brand-pillars";
 import { CampaignCarousel } from "@/components/storefront/campaign-carousel";
+import { HeroCarousel } from "@/components/storefront/hero-carousel";
 import { featuredProducts, toCardData } from "@/lib/data/products";
 import { listActiveBanners } from "@/lib/data/marketing";
+
+const HERO_IMAGES = [
+  "/images/hero/hero-hoodie-summit.png",
+  "/images/hero/hero-mens-training.png",
+  "/images/hero/hero-womens-training.jpg",
+  "/images/hero/hero-product-flatlay.png",
+];
 
 export default async function HomePage() {
   const [featured, banners] = await Promise.all([featuredProducts(4), listActiveBanners()]);
@@ -24,17 +32,7 @@ export default async function HomePage() {
 
   return (
     <StorefrontShell>
-      <section className="relative min-h-[94svh] overflow-hidden">
-        <Image
-          src="/images/hero.jpeg"
-          alt="RISE athlete wearing black performance clothing"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/48" />
-        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#050505] to-transparent" />
+      <HeroCarousel images={HERO_IMAGES}>
         <div className="relative z-10 mx-auto flex min-h-[94svh] max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-white/72">
@@ -59,7 +57,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </HeroCarousel>
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
