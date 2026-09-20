@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Check, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import { useWishlist } from "@/components/providers/wishlist-provider";
@@ -88,8 +88,6 @@ export function ProductDetail({
   const [size, setSize] = useState(product.variants[0]?.size ?? "OS");
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const [ctaInView, setCtaInView] = useState(true);
-  const ctaRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
   const { toggle, isWishlisted } = useWishlist();
   const [localReviews, setLocalReviews] = useState(reviews);
@@ -100,16 +98,6 @@ export function ProductDetail({
   const selectedVariant = product.variants.find((v) => v.size === size);
   const stock = selectedVariant?.stock ?? 0;
   const wishlisted = isWishlisted(product.id);
-
-  useEffect(() => {
-    const el = ctaRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setCtaInView(entry.isIntersecting), {
-      rootMargin: "-1px 0px 0px 0px",
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   function handleAddToBag() {
     if (stock === 0) return;
@@ -152,13 +140,13 @@ export function ProductDetail({
 
   return (
     <>
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-24 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
+      <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-32 pt-20 sm:px-6 lg:pb-16 lg:pt-24 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
         <ProductGallery images={product.images} name={product.name} />
         <div className="lg:sticky lg:top-24 lg:self-start">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/45">
             {product.category} / {product.color}
           </p>
-          <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl">{product.name}</h1>
+          <h1 className="mt-4 text-4xl font-black uppercase leading-[0.9] tracking-[-0.04em] sm:text-5xl">{product.name}</h1>
           <div className="mt-4 flex items-center gap-3">
             <p className="text-xl font-black">{formatCurrency(product.price)}</p>
             {product.compareAt ? (
@@ -182,7 +170,7 @@ export function ProductDetail({
                   key={variant.size}
                   onClick={() => setSize(variant.size)}
                   disabled={variant.stock === 0}
-                  className={`tap-scale h-11 rounded-[20px] text-sm font-black disabled:cursor-not-allowed disabled:opacity-30 ${
+                  className={`tap-scale h-12 rounded-[20px] text-sm font-black disabled:cursor-not-allowed disabled:opacity-30 ${
                     size === variant.size ? "bg-white text-black" : "glass text-white"
                   }`}
                 >
@@ -191,8 +179,8 @@ export function ProductDetail({
               ))}
             </div>
           </div>
-          <div ref={ctaRef} className="mt-5 grid grid-cols-[128px_1fr] gap-3">
-            <div className="glass grid h-11 grid-cols-3 rounded-[20px]">
+          <div className="mt-5 grid grid-cols-[128px_1fr] gap-3">
+            <div className="glass grid h-12 grid-cols-3 rounded-[20px]">
               <button aria-label="Decrease quantity" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
                 <Minus className="mx-auto" size={16} />
               </button>
@@ -204,7 +192,7 @@ export function ProductDetail({
             <button
               disabled={stock === 0}
               onClick={handleAddToBag}
-              className={`tap-scale flex h-11 items-center justify-center gap-2 rounded-[20px] text-sm font-black uppercase tracking-[0.18em] transition disabled:opacity-40 ${
+              className={`tap-scale flex h-12 items-center justify-center gap-2 rounded-[20px] text-sm font-black uppercase tracking-[0.18em] transition disabled:opacity-40 ${
                 added ? "bg-white text-black" : "bg-white text-black"
               }`}
             >
@@ -241,12 +229,10 @@ export function ProductDetail({
       </section>
 
       <div
-        aria-hidden={ctaInView}
-        className={`safe-x fixed inset-x-0 bottom-20 z-30 px-3 transition-all duration-300 lg:hidden ${
-          ctaInView ? "pointer-events-none translate-y-4 opacity-0" : "translate-y-0 opacity-100"
-        }`}
+        aria-hidden={false}
+        className="safe-x fixed inset-x-0 bottom-20 z-30 px-3 lg:hidden"
       >
-        <div className="glass-strong mx-auto flex w-full max-w-md items-center gap-3 rounded-[20px] p-2.5 pl-4">
+        <div className="glass-strong mx-auto flex w-full max-w-md items-center gap-3 rounded-[20px] p-2 pl-4 shadow-2xl">
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-bold uppercase tracking-[0.1em] text-white/55">{product.name}</p>
             <p className="text-sm font-black">{formatCurrency(product.price)}</p>
@@ -254,7 +240,7 @@ export function ProductDetail({
           <button
             disabled={stock === 0}
             onClick={handleAddToBag}
-            className="tap-scale flex h-11 shrink-0 items-center justify-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.14em] text-black disabled:opacity-40"
+            className="tap-scale flex h-12 shrink-0 items-center justify-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.14em] text-black disabled:opacity-40"
           >
             {added ? (
               <>
