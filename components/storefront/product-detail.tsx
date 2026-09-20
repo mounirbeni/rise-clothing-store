@@ -255,6 +255,8 @@ export function ProductDetail({
                 className="size-8 rounded-full ring-2 ring-white ring-offset-2 ring-offset-black"
                 style={{ backgroundColor: swatchColor(product.color) }}
               />
+              <span aria-hidden="true" className="size-8 rounded-full opacity-40" style={{ backgroundColor: "#3a3a3a" }} />
+              <span aria-hidden="true" className="size-8 rounded-full opacity-40" style={{ backgroundColor: "#e8e8e4" }} />
             </div>
           </div>
 

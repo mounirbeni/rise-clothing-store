@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, ChevronLeft, ChevronRight, Info, Lock, Minus, Plus, ShoppingBag, Truck } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, HelpCircle, Lock, Minus, Plus, ShoppingBag, Truck } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import { formatCurrency } from "@/lib/format";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -140,12 +140,12 @@ export function CheckoutClient() {
             <button
               aria-label="Back"
               onClick={() => setStep((s) => (s > 0 ? ((s - 1) as StepIndex) : s))}
-              className="tap-scale glass grid size-10 shrink-0 place-items-center rounded-full"
+              className="tap-scale grid size-10 shrink-0 place-items-center rounded-full text-white"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={22} />
             </button>
           ) : (
-            <Link href="/" aria-label="Cancel checkout" className="tap-scale glass grid size-10 shrink-0 place-items-center rounded-full">
+            <Link href="/" aria-label="Cancel checkout" className="tap-scale grid size-10 shrink-0 place-items-center rounded-full text-white">
               <ChevronLeft size={18} />
             </Link>
           )}
@@ -257,6 +257,9 @@ export function CheckoutClient() {
                 <div>
                   <div className="mb-2 flex items-center justify-between text-xs font-black uppercase tracking-[0.14em] text-white/45">
                     <span>Order item{lines.length > 1 ? "s" : ""}</span>
+                    <Link href="/shop" className="tap-scale text-white/50">
+                      Edit
+                    </Link>
                   </div>
                   <div className="glass grid gap-3.5 rounded-[20px] p-4">
                     {lines.map((item) => (
@@ -274,30 +277,22 @@ export function CheckoutClient() {
                             </div>
                             <p className="text-sm font-bold">{formatCurrency(item.price * item.quantity)}</p>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <button
-                                aria-label={`Remove one ${item.name}`}
-                                onClick={() => updateQuantity(item.id, item.size, -1)}
-                                className="glass tap-scale grid size-7 place-items-center rounded-full"
-                              >
-                                <Minus size={12} />
-                              </button>
-                              <span className="w-4 text-center text-xs font-bold">{item.quantity}</span>
-                              <button
-                                aria-label={`Add one ${item.name}`}
-                                onClick={() => updateQuantity(item.id, item.size, 1)}
-                                className="glass tap-scale grid size-7 place-items-center rounded-full"
-                              >
-                                <Plus size={12} />
-                              </button>
-                            </div>
-                            <Link
-                              href={`/product/${item.slug}`}
-                              className="text-xs font-black uppercase tracking-[0.1em] text-white/50"
+                          <div className="flex items-center gap-2">
+                            <button
+                              aria-label={`Remove one ${item.name}`}
+                              onClick={() => updateQuantity(item.id, item.size, -1)}
+                              className="glass tap-scale grid size-7 place-items-center rounded-full"
                             >
-                              Edit
-                            </Link>
+                              <Minus size={12} />
+                            </button>
+                            <span className="w-4 text-center text-xs font-bold">{item.quantity}</span>
+                            <button
+                              aria-label={`Add one ${item.name}`}
+                              onClick={() => updateQuantity(item.id, item.size, 1)}
+                              className="glass tap-scale grid size-7 place-items-center rounded-full"
+                            >
+                              <Plus size={12} />
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -306,7 +301,12 @@ export function CheckoutClient() {
                 </div>
 
                 <div>
-                  <p className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/45">Delivery method</p>
+                  <div className="mb-2 flex items-center justify-between text-xs font-black uppercase tracking-[0.14em] text-white/45">
+                    <span>Delivery method</span>
+                    <button onClick={() => setStep(0)} className="tap-scale text-white/50">
+                      Edit
+                    </button>
+                  </div>
                   <div className="glass flex items-center gap-3 rounded-[20px] p-3.5">
                     <span className="glass grid size-10 shrink-0 place-items-center rounded-full">
                       <Truck size={17} />
@@ -317,25 +317,26 @@ export function CheckoutClient() {
                         Arrives {deliveryEstimate()} · {estimatedShipping === 0 ? "Free shipping on all orders" : formatCurrency(estimatedShipping)}
                       </p>
                     </div>
-                    <button onClick={() => setStep(0)} className="tap-scale flex shrink-0 items-center gap-1 text-xs font-black uppercase tracking-[0.1em] text-white/50">
-                      Edit <ChevronRight size={13} />
-                    </button>
+                    <ChevronRight size={16} className="shrink-0 text-white/35" />
                   </div>
                 </div>
 
                 <div>
-                  <p className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/45">Payment method</p>
+                  <div className="mb-2 flex items-center justify-between text-xs font-black uppercase tracking-[0.14em] text-white/45">
+                    <span>Payment method</span>
+                    <button onClick={() => setStep(2)} className="tap-scale text-white/50">
+                      Edit
+                    </button>
+                  </div>
                   <div className="glass flex items-center gap-3 rounded-[20px] p-3.5">
                     <span className="grid h-10 w-14 shrink-0 place-items-center rounded-[8px] border border-white/25 text-[10px] font-black italic tracking-wide">
                       VISA
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold">Visa test card •••• 4242</p>
-                      <p className="truncate text-xs text-white/50">Stripe test mode · no charge is made</p>
+                      <p className="text-sm font-bold">Visa ending in 4242</p>
+                      <p className="truncate text-xs text-white/50">Expires 04/28 · Stripe test mode</p>
                     </div>
-                    <button onClick={() => setStep(2)} className="tap-scale flex shrink-0 items-center gap-1 text-xs font-black uppercase tracking-[0.1em] text-white/50">
-                      Edit <ChevronRight size={13} />
-                    </button>
+                    <ChevronRight size={16} className="shrink-0 text-white/35" />
                   </div>
                 </div>
 
@@ -350,7 +351,7 @@ export function CheckoutClient() {
                           className="inline-flex items-center gap-1.5"
                           title="Calculated at checkout based on your delivery address"
                         >
-                          Estimated tax <Info size={13} className="text-white/35" />
+                          Estimated Tax <HelpCircle size={13} className="text-white/35" />
                         </span>
                       }
                       value={formatCurrency(estimatedTax)}

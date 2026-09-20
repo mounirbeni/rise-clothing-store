@@ -130,6 +130,17 @@ export async function featuredProducts(take = 4) {
   return [...featured, ...filler];
 }
 
+const SIZE_ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "OS"];
+
+function sizeRank(size: string) {
+  const index = SIZE_ORDER.indexOf(size.toUpperCase());
+  return index === -1 ? SIZE_ORDER.length : index;
+}
+
+export function sortSizes<T extends { size: string }>(variants: T[]) {
+  return [...variants].sort((a, b) => sizeRank(a.size) - sizeRank(b.size));
+}
+
 export function totalStock(product: ProductWithRelations) {
   return product.variants.reduce((sum, variant) => sum + variant.stock, 0);
 }
@@ -150,7 +161,7 @@ export function toCardData(product: ProductWithRelations): ProductCardData {
     price: product.price,
     compareAt: product.compareAt ?? null,
     images: product.images.map((image) => ({ url: image.url, alt: image.alt })),
-    variants: product.variants.map((variant) => ({ size: variant.size, stock: variant.stock })),
+    variants: sortSizes(product.variants.map((variant) => ({ size: variant.size, stock: variant.stock }))),
     avgRating: avgRating(product),
     reviewCount: product.reviews.length,
   };
