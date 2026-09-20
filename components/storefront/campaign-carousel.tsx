@@ -91,15 +91,15 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
               className="object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 px-4 pb-10 sm:px-6 lg:px-8">
-              <div className="glass-strong mx-auto max-w-md rounded-[20px] p-6">
+            <div className="absolute inset-x-0 bottom-0 px-4 pb-12 sm:px-6 sm:pb-14 lg:px-8">
+              <div className="glass-strong mx-auto max-w-md rounded-[20px] p-7 sm:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{slide.subtitle}</p>
-                <h3 className="mt-2 text-xl font-black uppercase leading-[1.05] sm:text-2xl lg:text-3xl">
+                <h3 className="mt-3 text-xl font-black uppercase leading-[1.05] sm:text-2xl lg:text-3xl">
                   {slide.title}
                 </h3>
                 <Link
                   href={slide.ctaHref}
-                  className="tap-scale mt-5 inline-flex h-11 items-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
+                  className="tap-scale mt-6 inline-flex h-11 items-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
                 >
                   {slide.ctaLabel} <ChevronRight size={16} />
                 </Link>

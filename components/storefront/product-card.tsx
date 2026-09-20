@@ -11,7 +11,7 @@ import type { ProductCardData } from "@/lib/types";
 
 export function ProductGrid({ products }: { products: ProductCardData[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -52,7 +52,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           <Heart size={14} className={wishlisted ? "fill-current" : ""} />
         </button>
       </div>
-      <div className="mt-3 flex items-start justify-between gap-2">
+      <div className="mt-3.5 flex items-start justify-between gap-2">
         <div className="min-w-0">
           <Link href={`/product/${product.slug}`} className="block truncate text-sm font-bold hover:underline">
             {product.name}
@@ -68,7 +68,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           ) : null}
         </div>
       </div>
-      <div className="mt-2.5 grid grid-cols-[1fr_auto] gap-1.5">
+      <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
         <label className="relative flex h-9 items-center rounded-[20px] border border-white/12 px-2.5">
           <span className="sr-only">Select size for {product.name}</span>
           <select
