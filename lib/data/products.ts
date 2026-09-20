@@ -95,6 +95,21 @@ export async function relatedProducts(product: ProductWithRelations, take = 4) {
   return [...sameCategory, ...filler];
 }
 
+export async function categoryShowcase() {
+  const showcase: { category: string; image: string; alt: string }[] = [];
+  for (const category of CATEGORIES) {
+    const product = await prisma.product.findFirst({
+      where: { category, status: "active" },
+      include: { images: { orderBy: { position: "asc" }, take: 1 } },
+      orderBy: { createdAt: "desc" },
+    });
+    if (product && product.images[0]) {
+      showcase.push({ category, image: product.images[0].url, alt: product.images[0].alt ?? product.name });
+    }
+  }
+  return showcase;
+}
+
 export async function featuredProducts(take = 4) {
   const featured = await prisma.product.findMany({
     where: { status: "active", featured: true },

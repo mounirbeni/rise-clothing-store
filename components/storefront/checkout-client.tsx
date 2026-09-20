@@ -152,7 +152,7 @@ export function CheckoutClient() {
         ))}
       </div>
 
-      <div className="mt-8">
+      <div key={step} className="step-in mt-8">
         {step === 0 ? (
           <div className="glass grid gap-3 rounded-[20px] p-5">
             <input

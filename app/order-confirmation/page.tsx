@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 import { StorefrontShell } from "@/components/storefront/storefront-shell";
 import { getOrderById } from "@/lib/data/orders";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/format";
 
 export const metadata = { title: "Order confirmed" };
+
+const STEPS = ["Delivery", "Contact", "Payment", "Review", "Confirmation"];
 
 export default async function Page({
   searchParams,
@@ -21,41 +23,64 @@ export default async function Page({
       : null;
 
   return (
-    <StorefrontShell>
-      <section className="mx-auto max-w-3xl px-4 pb-16 pt-32 text-center sm:px-6 lg:px-8">
-        <CheckCircle2 size={48} className="mx-auto" />
-        <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">
-          {order ? order.orderNumber : "Order pending"}
-        </p>
-        <h1 className="mt-4 text-3xl font-black uppercase leading-none sm:text-4xl lg:text-5xl">
-          {order ? "Order confirmed" : "Payment processing"}
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-white/64">
-          {order
-            ? "Your RISE order is queued for fulfillment. Tracking, invoice, and delivery updates will appear in your account area."
-            : "We're finalizing your payment confirmation. If you paid with Stripe, this page updates automatically once the webhook is received."}
-        </p>
-        {order ? (
-          <div className="mx-auto mt-8 grid max-w-md gap-2 glass rounded-[20px] p-5 text-left text-sm text-white/70">
-            {order.items.map((item) => (
-              <div key={item.id} className="flex justify-between">
-                <span>{item.name} / {item.size} x{item.quantity}</span>
-                <span>{formatCurrency(item.unitPrice * item.quantity)}</span>
+    <StorefrontShell hideFooter hideMobileNav>
+      <section className="mx-auto max-w-2xl px-4 pb-16 pt-24 sm:px-6 lg:px-8">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-white/45">Step 5 of 5</p>
+        <h1 className="text-xl font-black uppercase leading-none">Confirmation</h1>
+
+        <div className="mt-5 flex gap-2">
+          {STEPS.map((label) => (
+            <div key={label} className="h-1.5 flex-1 rounded-full bg-white" />
+          ))}
+        </div>
+
+        <div className="fade-in mt-10 flex flex-col items-center text-center">
+          <span className="confirm-pop glass-strong grid size-20 place-items-center rounded-full">
+            <Check size={36} strokeWidth={2.6} />
+          </span>
+          <p className="mt-6 text-sm font-black uppercase tracking-[0.24em] text-white/45">
+            {order ? order.orderNumber : "Order pending"}
+          </p>
+          <h2 className="mt-3 text-3xl font-black uppercase leading-none sm:text-4xl">
+            {order ? "Order confirmed" : "Payment processing"}
+          </h2>
+          <p className="mx-auto mt-5 max-w-md text-base leading-7 text-white/64">
+            {order
+              ? "Your RISE order is queued for fulfillment. Tracking, invoice, and delivery updates will appear in your account area."
+              : "We're finalizing your payment confirmation. If you paid with Stripe, this page updates automatically once the webhook is received."}
+          </p>
+
+          {order ? (
+            <div className="mt-8 grid w-full gap-2 rounded-[20px] glass p-5 text-left text-sm text-white/70">
+              {order.items.map((item) => (
+                <div key={item.id} className="flex justify-between">
+                  <span>
+                    {item.name} / {item.size} x{item.quantity}
+                  </span>
+                  <span>{formatCurrency(item.unitPrice * item.quantity)}</span>
+                </div>
+              ))}
+              <div className="flex justify-between border-t border-white/10 pt-2 text-base font-black text-white">
+                <span>Total</span>
+                <span>{formatCurrency(order.total)}</span>
               </div>
-            ))}
-            <div className="flex justify-between border-t border-white/10 pt-2 text-base font-black text-white">
-              <span>Total</span>
-              <span>{formatCurrency(order.total)}</span>
             </div>
+          ) : null}
+
+          <div className="mt-8 flex w-full flex-col gap-3">
+            <Link
+              href="/account"
+              className="tap-scale grid h-12 place-items-center rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black"
+            >
+              View account
+            </Link>
+            <Link
+              href="/shop"
+              className="tap-scale glass grid h-12 place-items-center rounded-[20px] text-sm font-black uppercase tracking-[0.18em]"
+            >
+              Continue shopping
+            </Link>
           </div>
-        ) : null}
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/account" className="tap-scale grid h-12 place-items-center rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black">
-            View account
-          </Link>
-          <Link href="/shop" className="grid h-12 place-items-center rounded-[20px] border border-white/15 px-6 text-sm font-black uppercase tracking-[0.18em]">
-            Continue shopping
-          </Link>
         </div>
       </section>
     </StorefrontShell>

@@ -11,6 +11,7 @@ import type { ProductCardData } from "@/lib/types";
 
 function ProductGallery({ images, name }: { images: { url: string; alt: string | null }[]; name: string }) {
   const [active, setActive] = useState(0);
+  const [loadedMap, setLoadedMap] = useState<Record<number, boolean>>({});
   const trackRef = useRef<HTMLDivElement>(null);
 
   function onScroll() {
@@ -38,13 +39,17 @@ function ProductGallery({ images, name }: { images: { url: string; alt: string |
             key={image.url + index}
             className="relative aspect-[4/5] w-full shrink-0 snap-center overflow-hidden rounded-[20px] bg-zinc-950 sm:shrink"
           >
+            {!loadedMap[index] ? (
+              <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-zinc-800 to-zinc-900" />
+            ) : null}
             <Image
               src={image.url}
               alt={image.alt || `${name} view ${index + 1}`}
               fill
               sizes="(min-width: 1024px) 34vw, 100vw"
               priority={index === 0}
-              className="object-cover"
+              onLoad={() => setLoadedMap((m) => ({ ...m, [index]: true }))}
+              className={`object-cover transition-opacity duration-300 ${loadedMap[index] ? "opacity-100" : "opacity-0"}`}
             />
           </div>
         ))}

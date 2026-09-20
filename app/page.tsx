@@ -5,8 +5,9 @@ import { StorefrontShell } from "@/components/storefront/storefront-shell";
 import { ProductGrid } from "@/components/storefront/product-card";
 import { BrandPillars } from "@/components/storefront/brand-pillars";
 import { CampaignCarousel } from "@/components/storefront/campaign-carousel";
+import { CollectionFeed } from "@/components/storefront/collection-feed";
 import { HeroCarousel } from "@/components/storefront/hero-carousel";
-import { featuredProducts, toCardData } from "@/lib/data/products";
+import { categoryShowcase, featuredProducts, toCardData } from "@/lib/data/products";
 import { listActiveBanners } from "@/lib/data/marketing";
 
 const HERO_IMAGES = [
@@ -17,7 +18,11 @@ const HERO_IMAGES = [
 ];
 
 export default async function HomePage() {
-  const [featured, banners] = await Promise.all([featuredProducts(4), listActiveBanners()]);
+  const [featured, banners, collections] = await Promise.all([
+    featuredProducts(4),
+    listActiveBanners(),
+    categoryShowcase(),
+  ]);
   const cards = featured.map(toCardData);
   const slides = banners
     .filter((banner) => banner.imageUrl)
@@ -78,6 +83,8 @@ export default async function HomePage() {
         </div>
         <ProductGrid products={cards} />
       </section>
+
+      <CollectionFeed items={collections} />
 
       <CampaignCarousel slides={slides} />
 
