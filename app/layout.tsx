@@ -1,9 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Anton, Inter } from "next/font/google";
 import { getSession } from "@/lib/auth";
 import { CartProvider } from "@/components/providers/cart-provider";
 import { WishlistProvider } from "@/components/providers/wishlist-provider";
 import { PwaRegister } from "@/components/providers/pwa-register";
 import "./globals.css";
+
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -42,7 +56,7 @@ export default async function RootLayout({
   const session = await getSession();
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${anton.variable} ${inter.variable}`}>
       <body>
         <PwaRegister />
         <CartProvider>

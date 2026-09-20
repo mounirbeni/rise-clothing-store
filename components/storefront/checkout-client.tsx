@@ -126,7 +126,7 @@ export function CheckoutClient() {
         </div>
       ) : null}
 
-      <div className="relative z-10 px-4 pt-6 sm:px-6 lg:px-8">
+      <div className="relative z-10 px-4 pt-5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {step > 0 ? (
             <button
@@ -147,7 +147,7 @@ export function CheckoutClient() {
           </span>
         </div>
 
-        <div className="mt-5 flex items-center justify-center gap-2">
+        <div className="mt-4 flex items-center justify-center gap-2">
           {STEPS.map((label, index) => (
             <div key={label} className="flex items-center gap-2">
               <div className="flex flex-col items-center gap-1.5">
