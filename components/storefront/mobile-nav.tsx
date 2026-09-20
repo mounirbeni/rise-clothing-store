@@ -22,7 +22,7 @@ export function MobileNav({ authed }: { authed?: boolean }) {
       aria-label="Primary"
       className="safe-bottom safe-x fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-3 lg:hidden"
     >
-      <div className="glass-strong flex w-full max-w-md items-center justify-between rounded-[28px] px-1.5 py-1.5">
+      <div className="glass-strong flex w-full max-w-md items-center justify-between rounded-[20px] px-1.5 py-1.5">
         {items.map(({ icon: Icon, label, href, onClick, badge }) => {
           const active = href ? (href === "/" ? pathname === "/" : pathname?.startsWith(href)) : false;
           const content = (

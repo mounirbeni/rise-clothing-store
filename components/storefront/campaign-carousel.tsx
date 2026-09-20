@@ -99,7 +99,7 @@ export function CampaignCarousel({ slides }: { slides: CampaignSlide[] }) {
                 </h3>
                 <Link
                   href={slide.ctaHref}
-                  className="tap-scale mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
+                  className="tap-scale mt-6 inline-flex h-12 items-center gap-2 rounded-[20px] bg-white px-6 text-sm font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
                 >
                   {slide.ctaLabel} <ChevronRight size={16} />
                 </Link>

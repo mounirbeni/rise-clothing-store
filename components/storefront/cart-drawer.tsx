@@ -16,7 +16,7 @@ export function CartDrawer() {
         role="dialog"
         aria-label="Shopping bag"
         aria-hidden={!bagOpen}
-        className={`glass-strong safe-bottom fixed inset-x-0 bottom-0 z-50 flex max-h-[85svh] w-full flex-col rounded-t-[28px] text-[#f7f7f2] transition-transform duration-300 lg:inset-x-auto lg:inset-y-0 lg:right-0 lg:max-h-none lg:w-full lg:max-w-md lg:translate-y-0 lg:rounded-none lg:border-l lg:border-white/10 ${
+        className={`glass-strong safe-bottom fixed inset-x-0 bottom-0 z-50 flex max-h-[85svh] w-full flex-col rounded-t-[20px] text-[#f7f7f2] transition-transform duration-300 lg:inset-x-auto lg:inset-y-0 lg:right-0 lg:max-h-none lg:w-full lg:max-w-md lg:translate-y-0 lg:rounded-none lg:border-l lg:border-white/10 ${
           bagOpen ? "translate-y-0 lg:translate-x-0" : "translate-y-full lg:translate-x-full"
         }`}
       >
@@ -44,7 +44,7 @@ export function CartDrawer() {
             <div className="space-y-5">
               {lines.map((item) => (
                 <div key={`${item.id}-${item.size}`} className="flex gap-4">
-                  <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-zinc-900">
+                  <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-[20px] bg-zinc-900">
                     <Image src={item.image} alt={item.name} fill sizes="96px" className="object-cover" />
                   </div>
                   <div className="flex flex-1 flex-col justify-between">
@@ -94,7 +94,7 @@ export function CartDrawer() {
           <Link
             href="/checkout"
             onClick={() => setBagOpen(false)}
-            className={`tap-scale grid h-12 place-items-center rounded-full bg-white text-sm font-black uppercase tracking-[0.18em] text-black ${
+            className={`tap-scale grid h-12 place-items-center rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black ${
               !lines.length ? "pointer-events-none opacity-40" : ""
             }`}
           >
