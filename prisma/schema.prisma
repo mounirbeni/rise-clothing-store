@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  owner
+  admin
+  staff
+  customer
+}
+
+enum ProductStatus {
+  active
+  draft
+  archived
+}
+
+enum OrderStatus {
+  pending
+  paid
+  in_fulfillment
+  fulfilled
+  refunded
+  cancelled
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String?
+  role         Role      @default(customer)
+  tags         String[]  @default([])
+  notes        String?
+  addresses    Address[]
+  orders       Order[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  line1     String
+  city      String
+  region    String
+  postal    String
+  country   String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  name        String
+  description String
+  category    String
+  collection  String
+  color       String
+  price       Int
+  compareAt   Int?
+  status      ProductStatus   @default(active)
+  images      ProductImage[]
+  variants    ProductVariant[]
+  reviews     Review[]
+  orderItems  OrderItem[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String
+  position  Int     @default(0)
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku       String  @unique
+  size      String
+  stock     Int     @default(0)
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  userId         String?
+  user           User?       @relation(fields: [userId], references: [id])
+  email          String
+  status         OrderStatus @default(pending)
+  subtotal       Int
+  shipping       Int
+  tax            Int
+  total          Int
+  stripeSession  String?
+  trackingNumber String?
+  customerNotes  String?
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  size      String
+  quantity  Int
+  unitPrice Int
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int
+  title     String
+  body      String
+  author    String
+  createdAt DateTime @default(now())
+}
+
+model DiscountCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  description String
+  percentOff  Int
+  active      Boolean  @default(true)
+  startsAt    DateTime @default(now())
+  endsAt      DateTime?
+}
+
+model StaffInvite {
+  id        String   @id @default(cuid())
+  email     String
+  role      Role
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
