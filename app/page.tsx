@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { StorefrontShell } from "@/components/storefront/storefront-shell";
-import { ProductGrid } from "@/components/storefront/product-card";
+import { FeaturedProductRail } from "@/components/storefront/featured-product-rail";
 import { BrandPillars } from "@/components/storefront/brand-pillars";
 import { CampaignCarousel } from "@/components/storefront/campaign-carousel";
 import { CollectionFeed } from "@/components/storefront/collection-feed";
@@ -38,24 +38,27 @@ export default async function HomePage() {
   return (
     <StorefrontShell>
       <HeroCarousel images={HERO_IMAGES}>
-        <div className="relative z-10 mx-auto flex min-h-[94svh] max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
-          <div className="glass-strong max-w-md rounded-[20px] p-7 sm:p-8 lg:p-9">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-white/72">
+        <div className="relative z-10 mx-auto flex min-h-[82svh] max-w-7xl items-end px-4 pb-16 pt-24 sm:px-6 sm:pb-20 lg:min-h-[88svh] lg:px-8 lg:pb-24">
+          <div className="max-w-md">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/70">
               Fall training collection
             </p>
-            <h1 className="text-3xl font-black uppercase leading-[0.95] sm:text-4xl lg:text-5xl">
+            <h1 className="text-5xl font-black uppercase leading-[0.84] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
               More Than Yesterday
             </h1>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <p className="mt-5 max-w-xs text-sm leading-6 text-white/66 sm:text-base">
+              Discipline-built essentials for training, recovery, and everything after.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/shop"
-                className="tap-scale inline-flex h-11 items-center justify-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
+                className="tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] bg-white px-6 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:bg-zinc-200"
               >
                 Shop drop <ChevronRight size={16} />
               </Link>
               <Link
                 href="/collection"
-                className="glass tap-scale inline-flex h-11 items-center justify-center gap-2 rounded-[20px] px-5 text-xs font-black uppercase tracking-[0.18em] text-white"
+                className="glass tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] px-5 text-xs font-black uppercase tracking-[0.18em] text-white"
               >
                 View campaign
               </Link>
@@ -64,14 +67,14 @@ export default async function HomePage() {
         </div>
       </HeroCarousel>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-28">
-        <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end sm:mb-12">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-24">
+        <div className="flex items-end justify-between gap-5">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/50">
               New arrivals
             </p>
-            <h2 className="mt-2 text-2xl font-black uppercase sm:text-3xl">
-              Built for motion
+            <h2 className="mt-2 text-2xl font-black uppercase tracking-[-0.03em] sm:text-3xl">
+              Featured drop
             </h2>
           </div>
           <Link
@@ -81,7 +84,7 @@ export default async function HomePage() {
             All products <ChevronRight size={16} />
           </Link>
         </div>
-        <ProductGrid products={cards} />
+        <FeaturedProductRail products={cards} />
       </section>
 
       <CollectionFeed items={collections} />
