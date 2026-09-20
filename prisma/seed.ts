@@ -409,8 +409,42 @@ async function main() {
   console.log("Creating banners...");
   await prisma.banner.createMany({
     data: [
-      { title: "More Than Yesterday", subtitle: "Fall training collection now live", imageUrl: "/images/hero.jpeg", ctaLabel: "Shop drop", ctaHref: "/shop", active: true, position: 0 },
-      { title: "Free shipping over $150", subtitle: "Applies automatically at checkout", active: true, position: 1 },
+      {
+        title: "Essentials For The Relentless",
+        subtitle: "Accessories / New drop",
+        imageUrl: "/images/campaigns/essentials-drop.png",
+        ctaLabel: "Shop essentials",
+        ctaHref: "/shop?category=Accessories",
+        active: true,
+        position: 0,
+      },
+      {
+        title: "Stronger Than Yesterday",
+        subtitle: "Women's performance",
+        imageUrl: "/images/campaigns/womens-performance.png",
+        ctaLabel: "Explore collection",
+        ctaHref: "/shop?category=Training",
+        active: true,
+        position: 1,
+      },
+      {
+        title: "Push. Evolve. Rise.",
+        subtitle: "Training essentials",
+        imageUrl: "/images/campaigns/push-evolve-rise.png",
+        ctaLabel: "Shop now",
+        ctaHref: "/shop?category=Training",
+        active: true,
+        position: 2,
+      },
+      {
+        title: "Discipline Builds Freedom",
+        subtitle: "More than yesterday",
+        imageUrl: "/images/campaigns/discipline-builds-freedom.png",
+        ctaLabel: "Shop the drop",
+        ctaHref: "/shop?category=Hoodies",
+        active: true,
+        position: 3,
+      },
     ],
   });
 

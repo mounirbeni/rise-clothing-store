@@ -5,7 +5,15 @@ import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 
 type Discount = { id: string; code: string; description: string; percentOff: number; active: boolean; timesUsed: number };
-type Banner = { id: string; title: string; subtitle: string; active: boolean };
+type Banner = {
+  id: string;
+  title: string;
+  subtitle: string;
+  imageUrl: string;
+  ctaLabel: string;
+  ctaHref: string;
+  active: boolean;
+};
 type Campaign = { id: string; name: string; subject: string; status: string };
 
 export function DiscountManager({ discounts }: { discounts: Discount[] }) {
@@ -106,7 +114,7 @@ export function DiscountManager({ discounts }: { discounts: Discount[] }) {
 
 export function BannerManager({ banners }: { banners: Banner[] }) {
   const router = useRouter();
-  const [form, setForm] = useState({ title: "", subtitle: "" });
+  const [form, setForm] = useState({ title: "", subtitle: "", imageUrl: "", ctaLabel: "", ctaHref: "/shop" });
   const [saving, setSaving] = useState(false);
 
   async function create(event: React.FormEvent) {
@@ -118,7 +126,7 @@ export function BannerManager({ banners }: { banners: Banner[] }) {
       body: JSON.stringify(form),
     });
     setSaving(false);
-    setForm({ title: "", subtitle: "" });
+    setForm({ title: "", subtitle: "", imageUrl: "", ctaLabel: "", ctaHref: "/shop" });
     router.refresh();
   }
 
@@ -142,9 +150,14 @@ export function BannerManager({ banners }: { banners: Banner[] }) {
       <div className="grid gap-2">
         {banners.map((banner) => (
           <div key={banner.id} className="flex items-center justify-between gap-3 border border-black/10 bg-white p-3 text-sm">
-            <div>
-              <p className="font-black">{banner.title}</p>
-              <p className="text-black/50">{banner.subtitle}</p>
+            <div className="flex items-center gap-3">
+              {banner.imageUrl ? (
+                <img src={banner.imageUrl} alt="" className="size-10 rounded object-cover" />
+              ) : null}
+              <div>
+                <p className="font-black">{banner.title}</p>
+                <p className="text-black/50">{banner.subtitle}</p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -161,23 +174,45 @@ export function BannerManager({ banners }: { banners: Banner[] }) {
         ))}
         {banners.length === 0 ? <p className="text-sm text-black/50">No promotional banners yet.</p> : null}
       </div>
-      <form onSubmit={create} className="grid grid-cols-[1fr_1fr_auto] gap-2">
+      <form onSubmit={create} className="grid gap-2">
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            required
+            placeholder="Banner title"
+            value={form.title}
+            onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+            className="h-10 border border-black/15 px-3 text-sm outline-none"
+          />
+          <input
+            placeholder="Subtitle"
+            value={form.subtitle}
+            onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))}
+            className="h-10 border border-black/15 px-3 text-sm outline-none"
+          />
+        </div>
         <input
-          required
-          placeholder="Banner title"
-          value={form.title}
-          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+          placeholder="Image path (e.g. /images/campaigns/drop.png)"
+          value={form.imageUrl}
+          onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
           className="h-10 border border-black/15 px-3 text-sm outline-none"
         />
-        <input
-          placeholder="Subtitle"
-          value={form.subtitle}
-          onChange={(e) => setForm((f) => ({ ...f, subtitle: e.target.value }))}
-          className="h-10 border border-black/15 px-3 text-sm outline-none"
-        />
-        <button disabled={saving} className="inline-flex h-10 items-center gap-1 bg-black px-3 text-xs font-black uppercase text-white disabled:opacity-50">
-          <Plus size={14} /> Add
-        </button>
+        <div className="grid grid-cols-[1fr_1fr_auto] gap-2">
+          <input
+            placeholder="CTA label (e.g. Shop now)"
+            value={form.ctaLabel}
+            onChange={(e) => setForm((f) => ({ ...f, ctaLabel: e.target.value }))}
+            className="h-10 border border-black/15 px-3 text-sm outline-none"
+          />
+          <input
+            placeholder="CTA link (e.g. /shop)"
+            value={form.ctaHref}
+            onChange={(e) => setForm((f) => ({ ...f, ctaHref: e.target.value }))}
+            className="h-10 border border-black/15 px-3 text-sm outline-none"
+          />
+          <button disabled={saving} className="inline-flex h-10 items-center gap-1 bg-black px-3 text-xs font-black uppercase text-white disabled:opacity-50">
+            <Plus size={14} /> Add
+          </button>
+        </div>
       </form>
     </div>
   );

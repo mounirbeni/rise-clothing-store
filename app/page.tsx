@@ -4,11 +4,23 @@ import { ChevronRight } from "lucide-react";
 import { StorefrontShell } from "@/components/storefront/storefront-shell";
 import { ProductGrid } from "@/components/storefront/product-card";
 import { BrandPillars } from "@/components/storefront/brand-pillars";
+import { CampaignCarousel } from "@/components/storefront/campaign-carousel";
 import { featuredProducts, toCardData } from "@/lib/data/products";
+import { listActiveBanners } from "@/lib/data/marketing";
 
 export default async function HomePage() {
-  const featured = await featuredProducts(4);
+  const [featured, banners] = await Promise.all([featuredProducts(4), listActiveBanners()]);
   const cards = featured.map(toCardData);
+  const slides = banners
+    .filter((banner) => banner.imageUrl)
+    .map((banner) => ({
+      id: banner.id,
+      title: banner.title,
+      subtitle: banner.subtitle,
+      imageUrl: banner.imageUrl,
+      ctaLabel: banner.ctaLabel || "Shop now",
+      ctaHref: banner.ctaHref || "/shop",
+    }));
 
   return (
     <StorefrontShell>
@@ -68,6 +80,8 @@ export default async function HomePage() {
         </div>
         <ProductGrid products={cards} />
       </section>
+
+      <CampaignCarousel slides={slides} />
 
       <section className="grid min-h-[620px] lg:grid-cols-[1.2fr_0.8fr]">
         <div className="relative min-h-[420px]">
