@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Check, ChevronLeft, ChevronRight, CreditCard, Lock, Minus, Plus, ShoppingBag, Truck } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronLeft, ChevronRight, Info, Lock, Minus, Plus, ShoppingBag, Truck } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import { formatCurrency } from "@/lib/format";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -123,6 +124,13 @@ export function CheckoutClient() {
         <div className="absolute inset-x-0 top-0 z-0 h-64 overflow-hidden">
           <Image src="/images/hero/hero-hoodie-summit.png" alt="" fill sizes="100vw" className="object-cover opacity-70" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-[#050505]" />
+          <p className="absolute right-4 top-1/2 -translate-y-1/2 text-right text-[10px] font-black uppercase leading-[1.15] tracking-[0.08em] text-white/25">
+            More
+            <br />
+            Than
+            <br />
+            Yesterday
+          </p>
         </div>
       ) : null}
 
@@ -158,7 +166,7 @@ export function CheckoutClient() {
                 >
                   {index < step ? <Check size={14} /> : index + 1}
                 </span>
-                <span className={`text-[10px] font-bold uppercase tracking-[0.08em] ${index <= step ? "text-white" : "text-white/40"}`}>
+                <span className={`text-xs font-semibold ${index <= step ? "text-white" : "text-white/40"}`}>
                   {label}
                 </span>
               </div>
@@ -169,7 +177,15 @@ export function CheckoutClient() {
           ))}
         </div>
 
-        <div key={step} className="step-in mt-6">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -16 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-6"
+          >
           {step === 0 ? (
             <>
               <h1 className="text-3xl font-black uppercase leading-[0.95]">Shipping details</h1>
@@ -310,12 +326,12 @@ export function CheckoutClient() {
                 <div>
                   <p className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/45">Payment method</p>
                   <div className="glass flex items-center gap-3 rounded-[20px] p-3.5">
-                    <span className="glass grid size-10 shrink-0 place-items-center rounded-full">
-                      <CreditCard size={17} />
+                    <span className="grid h-10 w-14 shrink-0 place-items-center rounded-[8px] border border-white/25 text-[10px] font-black italic tracking-wide">
+                      VISA
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold">Stripe secure checkout</p>
-                      <p className="truncate text-xs text-white/50">Card details entered on next screen</p>
+                      <p className="text-sm font-bold">Visa test card •••• 4242</p>
+                      <p className="truncate text-xs text-white/50">Stripe test mode · no charge is made</p>
                     </div>
                     <button onClick={() => setStep(2)} className="tap-scale flex shrink-0 items-center gap-1 text-xs font-black uppercase tracking-[0.1em] text-white/50">
                       Edit <ChevronRight size={13} />
@@ -328,7 +344,17 @@ export function CheckoutClient() {
                   <div className="glass grid gap-1.5 rounded-[20px] p-4 text-sm">
                     <Row label="Subtotal" value={formatCurrency(subtotal)} />
                     <Row label="Shipping" value={estimatedShipping === 0 ? "Free" : formatCurrency(estimatedShipping)} />
-                    <Row label="Estimated tax" value={formatCurrency(estimatedTax)} />
+                    <Row
+                      label={
+                        <span
+                          className="inline-flex items-center gap-1.5"
+                          title="Calculated at checkout based on your delivery address"
+                        >
+                          Estimated tax <Info size={13} className="text-white/35" />
+                        </span>
+                      }
+                      value={formatCurrency(estimatedTax)}
+                    />
                     <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-3 text-lg font-black">
                       <span>Total</span>
                       <span>{formatCurrency(estimatedTotal)}</span>
@@ -374,7 +400,8 @@ export function CheckoutClient() {
           ) : null}
 
           {stepError ? <p className="mt-3 text-sm text-red-400">{stepError}</p> : null}
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {step !== 2 ? (
@@ -404,7 +431,7 @@ export function CheckoutClient() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value }: { label: React.ReactNode; value: string }) {
   return (
     <div className="flex justify-between text-white/62">
       <span>{label}</span>
