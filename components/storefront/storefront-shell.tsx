@@ -7,19 +7,21 @@ import { CartDrawer } from "@/components/storefront/cart-drawer";
 export async function StorefrontShell({
   children,
   hideFooter,
+  hideMobileNav,
 }: {
   children: React.ReactNode;
   hideFooter?: boolean;
+  hideMobileNav?: boolean;
 }) {
   const session = await getSession();
   const authed = Boolean(session && session.role === "customer");
 
   return (
-    <div className="min-h-screen bg-[#050505] pb-20 text-[#f7f7f2] lg:pb-0">
+    <div className={`min-h-screen bg-[#050505] text-[#f7f7f2] ${hideMobileNav ? "" : "pb-20 lg:pb-0"}`}>
       <SiteHeader authed={authed} />
       {children}
       {hideFooter ? null : <SiteFooter />}
-      <MobileNav authed={authed} />
+      {hideMobileNav ? null : <MobileNav authed={authed} />}
       <CartDrawer />
     </div>
   );

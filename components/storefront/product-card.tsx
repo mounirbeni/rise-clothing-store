@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Heart } from "lucide-react";
+import { Check, Heart, Plus } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/providers/cart-provider";
 import { useWishlist } from "@/components/providers/wishlist-provider";
 import { formatCurrency } from "@/lib/format";
+import { BottomSheet } from "@/components/storefront/bottom-sheet";
 import type { ProductCardData } from "@/lib/types";
 
 export function ProductGrid({ products }: { products: ProductCardData[] }) {
@@ -20,22 +21,53 @@ export function ProductGrid({ products }: { products: ProductCardData[] }) {
 }
 
 export function ProductCard({ product }: { product: ProductCardData }) {
-  const [size, setSize] = useState(product.variants[0]?.size ?? "OS");
+  const [loaded, setLoaded] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [added, setAdded] = useState(false);
   const { addItem } = useCart();
   const { toggle, isWishlisted } = useWishlist();
   const totalStock = product.variants.reduce((sum, v) => sum + v.stock, 0);
   const wishlisted = isWishlisted(product.id);
 
+  function confirmAdd(size: string) {
+    addItem(
+      {
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        image: product.images[0]?.url ?? "/images/product-hoodie.jpeg",
+        color: product.color,
+      },
+      size,
+    );
+    setSheetOpen(false);
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+  }
+
+  function handleAddTap() {
+    if (totalStock === 0) return;
+    const inStock = product.variants.filter((v) => v.stock > 0);
+    if (inStock.length === 1) {
+      confirmAdd(inStock[0].size);
+      return;
+    }
+    setSheetOpen(true);
+  }
+
   return (
     <article className="group">
       <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-zinc-900">
+        {!loaded ? <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-zinc-800 to-zinc-900" /> : null}
         <Link href={`/product/${product.slug}`} className="absolute inset-0">
           <Image
             src={product.images[0]?.url ?? "/images/product-hoodie.jpeg"}
             alt={product.images[0]?.alt ?? product.name}
             fill
             sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, 50vw"
-            className="object-cover transition duration-700 group-hover:scale-105"
+            onLoad={() => setLoaded(true)}
+            className={`object-cover transition duration-700 group-hover:scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
           />
         </Link>
         <span className="glass pointer-events-none absolute left-2 top-2 rounded-full px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.1em] text-white">
@@ -68,43 +100,41 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           ) : null}
         </div>
       </div>
-      <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-        <label className="relative flex h-9 items-center rounded-[20px] border border-white/12 px-2.5">
-          <span className="sr-only">Select size for {product.name}</span>
-          <select
-            aria-label={`Select size for ${product.name}`}
-            value={size}
-            onChange={(event) => setSize(event.target.value)}
-            className="w-full appearance-none bg-transparent text-xs font-bold outline-none"
-          >
-            {product.variants.map((variant) => (
-              <option key={variant.size} value={variant.size} disabled={variant.stock === 0}>
-                {variant.size} {variant.stock === 0 ? "(out of stock)" : ""}
-              </option>
-            ))}
-          </select>
-          <ChevronDown size={13} className="pointer-events-none absolute right-2" />
-        </label>
-        <button
-          disabled={totalStock === 0}
-          onClick={() =>
-            addItem(
-              {
-                id: product.id,
-                slug: product.slug,
-                name: product.name,
-                price: product.price,
-                image: product.images[0]?.url ?? "/images/product-hoodie.jpeg",
-                color: product.color,
-              },
-              size,
-            )
-          }
-          className="tap-scale flex h-9 items-center justify-center whitespace-nowrap rounded-[20px] bg-white px-3 text-[10px] font-black uppercase tracking-[0.1em] text-black transition disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {totalStock === 0 ? "Sold out" : "Add to bag"}
-        </button>
-      </div>
+      <button
+        disabled={totalStock === 0}
+        onClick={handleAddTap}
+        className={`tap-scale mt-3 flex h-10 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-[20px] text-[11px] font-black uppercase tracking-[0.1em] transition disabled:cursor-not-allowed disabled:opacity-40 ${
+          added ? "bg-white text-black" : "bg-white text-black"
+        }`}
+      >
+        {totalStock === 0 ? (
+          "Sold out"
+        ) : added ? (
+          <>
+            <Check size={14} /> Added
+          </>
+        ) : (
+          <>
+            <Plus size={14} /> Add to bag
+          </>
+        )}
+      </button>
+
+      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={`Select size / ${product.name}`}>
+        <div className="grid grid-cols-4 gap-2.5">
+          {product.variants.map((variant) => (
+            <button
+              key={variant.size}
+              disabled={variant.stock === 0}
+              onClick={() => confirmAdd(variant.size)}
+              className="tap-scale glass flex h-14 flex-col items-center justify-center rounded-[20px] text-sm font-black uppercase disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              {variant.size}
+              {variant.stock === 0 ? <span className="text-[9px] font-bold normal-case text-white/40">Sold out</span> : null}
+            </button>
+          ))}
+        </div>
+      </BottomSheet>
     </article>
   );
 }

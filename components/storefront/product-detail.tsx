@@ -1,13 +1,69 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Heart, Minus, Plus, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Check, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useCart } from "@/components/providers/cart-provider";
 import { useWishlist } from "@/components/providers/wishlist-provider";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { ProductGrid } from "@/components/storefront/product-card";
 import type { ProductCardData } from "@/lib/types";
+
+function ProductGallery({ images, name }: { images: { url: string; alt: string | null }[]; name: string }) {
+  const [active, setActive] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  function onScroll() {
+    const el = trackRef.current;
+    if (!el) return;
+    const index = Math.round(el.scrollLeft / el.clientWidth);
+    setActive(index);
+  }
+
+  function goTo(index: number) {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollTo({ left: index * el.clientWidth, behavior: "smooth" });
+  }
+
+  return (
+    <div className="relative">
+      <div
+        ref={trackRef}
+        onScroll={onScroll}
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth rounded-[20px] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible"
+      >
+        {images.map((image, index) => (
+          <div
+            key={image.url + index}
+            className="relative aspect-[4/5] w-full shrink-0 snap-center overflow-hidden rounded-[20px] bg-zinc-950 sm:shrink"
+          >
+            <Image
+              src={image.url}
+              alt={image.alt || `${name} view ${index + 1}`}
+              fill
+              sizes="(min-width: 1024px) 34vw, 100vw"
+              priority={index === 0}
+              className="object-cover"
+            />
+          </div>
+        ))}
+      </div>
+      {images.length > 1 ? (
+        <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              aria-label={`View image ${index + 1}`}
+              onClick={() => goTo(index)}
+              className={`h-1.5 rounded-full transition-all ${index === active ? "w-6 bg-white" : "w-1.5 bg-white/30"}`}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 type ReviewData = { id: string; rating: number; title: string; body: string; author: string; createdAt: string };
 
@@ -26,6 +82,9 @@ export function ProductDetail({
 }) {
   const [size, setSize] = useState(product.variants[0]?.size ?? "OS");
   const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const [ctaInView, setCtaInView] = useState(true);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
   const { toggle, isWishlisted } = useWishlist();
   const [localReviews, setLocalReviews] = useState(reviews);
@@ -36,6 +95,34 @@ export function ProductDetail({
   const selectedVariant = product.variants.find((v) => v.size === size);
   const stock = selectedVariant?.stock ?? 0;
   const wishlisted = isWishlisted(product.id);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setCtaInView(entry.isIntersecting), {
+      rootMargin: "-1px 0px 0px 0px",
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  function handleAddToBag() {
+    if (stock === 0) return;
+    addItem(
+      {
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        image: product.images[0]?.url ?? "/images/product-hoodie.jpeg",
+        color: product.color,
+      },
+      size,
+      quantity,
+    );
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+  }
 
   async function submitReview(event: React.FormEvent) {
     event.preventDefault();
@@ -61,20 +148,7 @@ export function ProductDetail({
   return (
     <>
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-24 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {product.images.map((image, index) => (
-            <div key={image.url + index} className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-zinc-950">
-              <Image
-                src={image.url}
-                alt={image.alt || `${product.name} view ${index + 1}`}
-                fill
-                sizes="(min-width: 1024px) 34vw, 100vw"
-                priority={index === 0}
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        <ProductGallery images={product.images} name={product.name} />
         <div className="lg:sticky lg:top-24 lg:self-start">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/45">
             {product.category} / {product.color}
@@ -112,7 +186,7 @@ export function ProductDetail({
               ))}
             </div>
           </div>
-          <div className="mt-5 grid grid-cols-[128px_1fr] gap-3">
+          <div ref={ctaRef} className="mt-5 grid grid-cols-[128px_1fr] gap-3">
             <div className="glass grid h-11 grid-cols-3 rounded-[20px]">
               <button aria-label="Decrease quantity" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
                 <Minus className="mx-auto" size={16} />
@@ -124,23 +198,20 @@ export function ProductDetail({
             </div>
             <button
               disabled={stock === 0}
-              onClick={() =>
-                addItem(
-                  {
-                    id: product.id,
-                    slug: product.slug,
-                    name: product.name,
-                    price: product.price,
-                    image: product.images[0]?.url ?? "/images/product-hoodie.jpeg",
-                    color: product.color,
-                  },
-                  size,
-                  quantity,
-                )
-              }
-              className="tap-scale h-11 rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black disabled:opacity-40"
+              onClick={handleAddToBag}
+              className={`tap-scale flex h-11 items-center justify-center gap-2 rounded-[20px] text-sm font-black uppercase tracking-[0.18em] transition disabled:opacity-40 ${
+                added ? "bg-white text-black" : "bg-white text-black"
+              }`}
             >
-              {stock === 0 ? "Out of stock" : "Add to bag"}
+              {stock === 0 ? (
+                "Out of stock"
+              ) : added ? (
+                <>
+                  <Check size={17} /> Added to bag
+                </>
+              ) : (
+                "Add to bag"
+              )}
             </button>
           </div>
           <button
@@ -163,6 +234,35 @@ export function ProductDetail({
           </div>
         </div>
       </section>
+
+      <div
+        aria-hidden={ctaInView}
+        className={`safe-x fixed inset-x-0 bottom-20 z-30 px-3 transition-all duration-300 lg:hidden ${
+          ctaInView ? "pointer-events-none translate-y-4 opacity-0" : "translate-y-0 opacity-100"
+        }`}
+      >
+        <div className="glass-strong mx-auto flex w-full max-w-md items-center gap-3 rounded-[20px] p-2.5 pl-4">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-bold uppercase tracking-[0.1em] text-white/55">{product.name}</p>
+            <p className="text-sm font-black">{formatCurrency(product.price)}</p>
+          </div>
+          <button
+            disabled={stock === 0}
+            onClick={handleAddToBag}
+            className="tap-scale flex h-11 shrink-0 items-center justify-center gap-2 rounded-[20px] bg-white px-5 text-xs font-black uppercase tracking-[0.14em] text-black disabled:opacity-40"
+          >
+            {added ? (
+              <>
+                <Check size={15} /> Added
+              </>
+            ) : (
+              <>
+                <ShoppingBag size={15} /> Add to bag
+              </>
+            )}
+          </button>
+        </div>
+      </div>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <h2 className="mb-6 text-2xl font-black uppercase">Reviews</h2>

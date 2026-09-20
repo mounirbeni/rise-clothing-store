@@ -1,8 +1,18 @@
 "use client";
 
-import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
+import { Check, Search, SlidersHorizontal } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { BottomSheet } from "@/components/storefront/bottom-sheet";
+
+const SORT_OPTIONS: [string, string][] = [
+  ["featured", "Featured"],
+  ["newest", "Newest"],
+  ["price-asc", "Price: low to high"],
+  ["price-desc", "Price: high to low"],
+  ["rating", "Top rated"],
+  ["stock", "Stock"],
+];
 
 export function ShopControls({
   categories,
@@ -20,6 +30,7 @@ export function ShopControls({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(activeQuery);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   function pushParams(next: Record<string, string>) {
     const params = new URLSearchParams(searchParams.toString());
@@ -30,6 +41,8 @@ export function ShopControls({
     router.push(`/shop?${params.toString()}`);
   }
 
+  const activeFilterCount = (activeCategory !== "All" ? 1 : 0) + (activeSort !== "featured" ? 1 : 0);
+
   return (
     <>
       <div className="flex flex-col gap-6 border-b border-white/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
@@ -39,13 +52,13 @@ export function ShopControls({
             Performance clothing
           </h1>
         </div>
-        <div className="grid gap-3 sm:grid-cols-[1fr_180px] lg:w-[520px]">
+        <div className="flex gap-3 lg:w-[420px]">
           <form
             onSubmit={(event) => {
               event.preventDefault();
               pushParams({ q: query });
             }}
-            className="glass flex h-11 items-center gap-3 rounded-[20px] px-4"
+            className="glass flex h-12 flex-1 items-center gap-3 rounded-[20px] px-4"
           >
             <Search size={16} className="text-white/45" />
             <input
@@ -56,43 +69,75 @@ export function ShopControls({
               className="w-full bg-transparent text-sm outline-none placeholder:text-white/35"
             />
           </form>
-          <label className="glass relative flex h-11 items-center rounded-[20px] px-4">
-            <span className="sr-only">Sort products</span>
-            <select
-              value={activeSort}
-              onChange={(event) => pushParams({ sort: event.target.value })}
-              className="w-full appearance-none bg-transparent text-sm outline-none"
-            >
-              <option value="featured">Featured</option>
-              <option value="newest">Newest</option>
-              <option value="price-asc">Price low</option>
-              <option value="price-desc">Price high</option>
-              <option value="rating">Top rated</option>
-              <option value="stock">Stock</option>
-            </select>
-            <ChevronDown size={15} className="pointer-events-none absolute right-4" />
-          </label>
+          <button
+            aria-label="Filters"
+            onClick={() => setFiltersOpen(true)}
+            className="tap-scale glass relative flex h-12 shrink-0 items-center gap-2 rounded-[20px] px-4 text-sm font-bold"
+          >
+            <SlidersHorizontal size={16} />
+            <span className="hidden sm:inline">Filters</span>
+            {activeFilterCount > 0 ? (
+              <span className="grid size-5 place-items-center rounded-full bg-white text-[10px] font-black text-black">
+                {activeFilterCount}
+              </span>
+            ) : null}
+          </button>
         </div>
       </div>
-      <div className="my-6 flex gap-2 overflow-x-auto pb-1">
-        {["All", ...categories].map((item) => (
-          <button
-            key={item}
-            onClick={() => pushParams({ category: item })}
-            className={`tap-scale h-9 shrink-0 rounded-full px-4 text-xs font-black uppercase tracking-[0.1em] ${
-              activeCategory === item ? "bg-white text-black" : "glass text-white/70"
-            }`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <div className="mb-5 flex items-center justify-between text-sm text-white/50">
+      <div className="my-6 flex items-center justify-between text-sm text-white/50">
         <span>{resultCount} products</span>
-        <span className="inline-flex items-center gap-2">
-          <SlidersHorizontal size={16} /> Filters live
-        </span>
+        {activeCategory !== "All" ? (
+          <span className="inline-flex items-center gap-2">
+            <button onClick={() => pushParams({ category: "All" })} className="tap-scale glass rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-white">
+              {activeCategory} ✕
+            </button>
+          </span>
+        ) : null}
       </div>
+
+      <BottomSheet open={filtersOpen} onClose={() => setFiltersOpen(false)} title="Filters">
+        <div className="grid gap-6">
+          <div>
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-white/45">Category</p>
+            <div className="flex flex-wrap gap-2">
+              {["All", ...categories].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => pushParams({ category: item })}
+                  className={`tap-scale h-10 shrink-0 rounded-full px-4 text-xs font-black uppercase tracking-[0.1em] ${
+                    activeCategory === item ? "bg-white text-black" : "glass text-white/70"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-white/45">Sort by</p>
+            <div className="grid gap-2">
+              {SORT_OPTIONS.map(([value, label]) => (
+                <button
+                  key={value}
+                  onClick={() => pushParams({ sort: value })}
+                  className={`tap-scale flex h-12 items-center justify-between rounded-[20px] px-4 text-sm font-bold ${
+                    activeSort === value ? "bg-white text-black" : "glass text-white"
+                  }`}
+                >
+                  {label}
+                  {activeSort === value ? <Check size={16} /> : null}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button
+            onClick={() => setFiltersOpen(false)}
+            className="tap-scale grid h-12 place-items-center rounded-[20px] bg-white text-sm font-black uppercase tracking-[0.18em] text-black"
+          >
+            Show {resultCount} results
+          </button>
+        </div>
+      </BottomSheet>
     </>
   );
 }
