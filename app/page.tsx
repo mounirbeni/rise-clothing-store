@@ -63,7 +63,7 @@ export default async function HomePage() {
             </Link>
             <Link
               href="/collection"
-              className="tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] border border-white/35 bg-white/5 px-6 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm"
+              className="glass tap-scale inline-flex h-12 items-center justify-center gap-2 rounded-[20px] px-6 text-xs font-black uppercase tracking-[0.18em] text-white"
             >
               View campaign
             </Link>
