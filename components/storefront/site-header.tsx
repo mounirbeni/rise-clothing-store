@@ -51,14 +51,14 @@ export function SiteHeader({ authed }: { authed?: boolean }) {
           <button
             aria-label="Search"
             onClick={() => setSearchOpen(true)}
-            className="tap-scale hidden size-10 place-items-center rounded-full text-white/85 hover:bg-white/10 sm:grid"
+            className="tap-scale grid size-10 place-items-center rounded-full text-white/85 hover:bg-white/10"
           >
             <Search size={19} />
           </button>
           <Link
             aria-label={authed ? "Account" : "Sign in"}
             href={authed ? "/account" : "/account/login"}
-            className="tap-scale hidden size-10 place-items-center rounded-full text-white/85 hover:bg-white/10 sm:grid"
+            className="tap-scale hidden size-10 place-items-center rounded-full text-white/85 hover:bg-white/10 md:grid"
           >
             <User size={19} />
           </Link>
